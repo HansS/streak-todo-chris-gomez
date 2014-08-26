@@ -1,0 +1,22 @@
+{
+  "name": "streak",
+  "version": "0.0.0",
+  "authors": [
+    "Chris Gomez <akagomez@gmail.com>"
+  ],
+  "description": "A simple interface for keeping track of what you've done",
+  "main": "public/index.html",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "homepage": "http://streak.github.io",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
