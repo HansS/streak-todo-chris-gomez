@@ -1,9 +1,12 @@
 steal(
   'can',
-  'app/index.stache!',
+  './index.stache!',
+  'app/model/state.js',
+
   'app/component/layout',
-function (can, indexView) {
+  'bower_components/bootstrap/dist/js/bootstrap.min.js',
+function (can, indexView, State) {
   $(function () {
-    $('#stache').html(indexView());
+    $('#stache').html(indexView(new State({})));
   });
 });
