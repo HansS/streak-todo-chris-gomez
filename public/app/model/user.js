@@ -1,7 +1,7 @@
 steal(
-'can',
-'./todos.js',
-'can/map/define',
+  'can',
+  './todos.js',
+  'can/map/define',
 function (can, TodosModel) {
   return can.Model.extend({
 
@@ -12,7 +12,7 @@ function (can, TodosModel) {
     // Instance methods
     define: {
       todos: {
-        value: new TodosModel()
+        value: new TodosModel.List()
       }
     }
   });

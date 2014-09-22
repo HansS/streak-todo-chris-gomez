@@ -1,5 +1,10 @@
+{{#each user.todos}}
+  {{@index}}
+{{/each}}
+<!--
 <app-header></app-header>
 
 <app-form></app-form>
 
 <app-list todos="{user.todos}"></app-list>
+-->

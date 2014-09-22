@@ -21,7 +21,7 @@ function (can, template) {
 
       },
       inserted: function () {
-
+        console.log(this.scope.attr('user'));
       }
     }
   });

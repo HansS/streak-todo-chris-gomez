@@ -1,20 +1,15 @@
 steal(
-'can',
-'can/map/define',
+  'can',
+  'can/map/define',
 function (can) {
   return can.Model.extend({
 
     // Static methods
 
-    findAll: function () {
-      return [{
-        title: 'abc'
-      }, {
-        title: 'def'
-      }, {
-        title: 'ghi'
-      }];
-    }
+    parseModels: 'todos',
+    create: "POST /todo",
+    findAll: "GET /todo",
+    findOne: "GET /todo/{id}"
 
   }, {
 
