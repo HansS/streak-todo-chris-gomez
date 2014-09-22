@@ -1,19 +1,23 @@
 steal(
   'can',
-  './todos.js',
   'can/map/define',
-function (can, TodosModel) {
+function (can) {
+
   return can.Model.extend({
 
     // Static methods
 
+    // parseModels: 'todos',
+    create: "POST /todo",
+    findAll: "GET /todo",
+    findOne: "GET /todo/{id}"
+
   }, {
 
     // Instance methods
+
     define: {
-      todos: {
-        value: new TodosModel.List()
-      }
+
     }
   });
 });

@@ -30,6 +30,15 @@ steal.config({
     }
   },
   ext: {
-    stache: "app/utils/system_stache"
-  }
+    stache: "src/utils/system_stache"
+  },
+  fixtures: true
 });
+
+if(steal.config('fixtures')) {
+  System.meta['src/index'] = {
+    deps: [
+      'src/fixtures'
+    ]
+  };
+}

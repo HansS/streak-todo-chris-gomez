@@ -1,9 +1,9 @@
 steal(
   'can',
   './layout.stache!',
-  'app/component/header',
-  'app/component/form',
-  'app/component/list',
+  'src/component/header',
+  'src/component/form',
+  'src/component/list',
   'can/map/define',
 function (can, template) {
 
