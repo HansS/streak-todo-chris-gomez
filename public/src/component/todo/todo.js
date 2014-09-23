@@ -1,28 +1,22 @@
 steal(
   'can',
-  './layout.stache!',
-  './layout.less!',
-  'src/component/header',
-  'src/component/form',
-  'src/component/list',
+  './todo.stache!',
+  './todo.less!',
   'can/map/define',
 function (can, template) {
 
   var ViewModel = can.Map.extend({
     define: {
+
     }
   });
 
   return can.Component.extend({
-    tag: 'app-layout',
+    tag: 'app-todo',
     template: template,
     scope: ViewModel,
     events: {
-      init: function () {
 
-      },
-      inserted: function () {
-      }
     }
   });
 });

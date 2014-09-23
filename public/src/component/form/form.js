@@ -1,6 +1,7 @@
 steal(
   'can',
   './form.stache!',
+  './form.less!',
   'can/map/define',
 function (can, template) {
 

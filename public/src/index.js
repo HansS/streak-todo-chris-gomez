@@ -8,8 +8,6 @@ function (can, indexView, State) {
   $(function () {
     var state = window.state = new State();
 
-    console.log(state.attr('user').attr('todos').attr());
-
     var view = indexView(state);
 
     $('#stache').html(view);

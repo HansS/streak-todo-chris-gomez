@@ -4,14 +4,23 @@ steal(
 function (can) {
 
   can.fixture('GET /todo', function () {
-    console.log('GET /todo');
     return {
       todos: [
         {
-          title: 'Finish this app!'
+          title: 'Finish this app',
+          state: 'pending'
         },
         {
-          title: 'Finish this app Now!'
+          title: 'Eat all vitamins',
+          state: 'pending'
+        },
+        {
+          title: 'Make a presentation',
+          state: 'pending'
+        },
+        {
+          title: 'Procrastinate',
+          state: 'completed'
         }
       ]
     };

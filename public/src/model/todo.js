@@ -7,17 +7,17 @@ function (can) {
 
     // Static methods
 
-    // parseModels: 'todos',
+    parseModels: 'todos',
     create: "POST /todo",
     findAll: "GET /todo",
-    findOne: "GET /todo/{id}"
+    findOne: "GET /todo/{id}",
 
   }, {
 
     // Instance methods
-
     define: {
 
     }
+
   });
 });

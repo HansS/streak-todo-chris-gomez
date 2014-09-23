@@ -1,4 +1,1 @@
-{{#each user.todos}}
-  !
-{{/each}}
-<!--<app-layout></app-layout>-->
+<app-layout></app-layout>
