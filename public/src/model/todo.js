@@ -8,6 +8,7 @@ function (can) {
     // Static methods
 
     parseModels: 'todos',
+
     create: "POST /todo",
     findAll: "GET /todo",
     findOne: "GET /todo/{id}",
