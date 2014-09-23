@@ -16,8 +16,12 @@ function (can) {
 
     // Instance methods
 
-    isCompleted: function () {
-      return this.attr('state') == 'completed';
+    define: {
+      isCompleted: {
+        get: function () {
+          return this.attr('state') == 'completed';
+        }
+      }
     }
   });
 

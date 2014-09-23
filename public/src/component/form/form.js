@@ -18,15 +18,12 @@ function (can, template, TodoModel) {
         state: 'pending'
       });
 
-      todoModel.save(function () {
-        TodoModel.findAll({}, function () {
-          console.log(arguments[0].attr())
-        })
-      });
+      this.attr('todos').unshift(todoModel);
+
+      todoModel.save();
 
       // Don't submit the form
       ev.preventDefault();
-      console.log('submitted')
     }
   });
 

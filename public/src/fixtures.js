@@ -3,7 +3,7 @@ steal(
   'can/util/fixture',
 function (can) {
 
-  var todos = [
+  var todos = window.todos = [
     {
       title: 'Finish this app',
       state: 'pending'
@@ -28,10 +28,10 @@ function (can) {
     };
   });
 
-  can.fixture('POST /todo', function () {
-    return {
-      id: Math.floor( Math.random()*10000 )
-    }
+  can.fixture('POST /todo', function (request) {
+    var model = request.data;
+    window.todos.push(model);
+    return model;
   });
 
 
