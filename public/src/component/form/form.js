@@ -1,30 +1,32 @@
 steal(
   'can',
   './form.stache!',
+  'src/model/todo.js',
   './form.less!',
   'can/map/define',
-function (can, template) {
+function (can, template, TodoModel) {
 
   var ViewModel = can.Map.extend({
     define: {
-      todos: new can.Map({
-        value: [
-          {
-            title: 'Take out the trash'
-          }
-        ]
-      })
     },
 
     createTodo: function (context, el, ev) {
       var title = el.find('[name="title"]').val();
 
-      this.attr('todos').push({
-        title: title
+      var todoModel = new TodoModel({
+        title: title,
+        state: 'pending'
+      });
+
+      todoModel.save(function () {
+        TodoModel.findAll({}, function () {
+          console.log(arguments[0].attr())
+        })
       });
 
       // Don't submit the form
       ev.preventDefault();
+      console.log('submitted')
     }
   });
 

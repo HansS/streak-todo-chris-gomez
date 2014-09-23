@@ -3,7 +3,7 @@ steal(
   'can/map/define',
 function (can) {
 
-  return can.Model.extend({
+  var Todo = can.Model.extend({
 
     // Static methods
 
@@ -20,4 +20,10 @@ function (can) {
       return this.attr('state') == 'completed';
     }
   });
+
+  Todo.List = Todo.List.extend({
+
+  });
+
+  return Todo;
 });
