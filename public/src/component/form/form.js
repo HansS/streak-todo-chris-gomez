@@ -11,16 +11,27 @@ function (can, template, TodoModel) {
     },
 
     createTodo: function (context, el, ev) {
-      var title = el.find('[name="title"]').val();
 
+      // Get the todo input
+      var input = el.find('[name="title"]');
+
+      // Get the todo title
+      var title = input.val();
+
+      // Create a todo model
       var todoModel = new TodoModel({
         title: title,
         state: 'pending'
       });
 
+      // Add the todo to the beginning of the todo list
       this.attr('todos').unshift(todoModel);
 
+      // Persiste the model to the server
       todoModel.save();
+
+      // Empty the input
+      input.val('').trigger('change');
 
       // Don't submit the form
       ev.preventDefault();
