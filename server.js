@@ -1,14 +1,26 @@
-#!/bin/node
+#!/usr/local/bin/node
 
-var static = require('node-static');
+// Core
+var url = require('url');
 
-var fileServer = new static.Server('./public');
-var portNumber = 9000;
+// NPM
+var connect = require('connect');
+var serveStatic = require('serve-static');
+var proxy = require('proxy-middleware');
 
-require('http').createServer(function (request, response) {
-    request.addListener('end', function () {
-        fileServer.serve(request, response);
-    }).resume();
-}).listen(portNumber);
+// Configuration
+var PORT = 9000;
 
-console.log('Listening on port', portNumber)
+
+var app = connect();
+
+app.use(serveStatic('public', {
+  index: ['index.html']
+}));
+app.use('/api',
+  proxy(url.parse(
+    'https://fthillivionamersedstingl:KR1vnEpeQBncd1LrYmMNEjjL@akagomez.cloudant.com/streak')));
+
+app.listen(PORT);
+
+console.log('Server listening on port', PORT);
