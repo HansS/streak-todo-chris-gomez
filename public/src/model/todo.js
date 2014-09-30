@@ -1,17 +1,38 @@
 steal(
   'can',
+  'lodash',
   'can/map/define',
-function (can) {
+function (can, _) {
 
   var Todo = can.Model.extend({
 
     // Static methods
 
-    parseModels: 'todos',
+    // parseModels: 'todos',
 
-    create: "POST /todo",
-    findAll: "GET /todo",
-    findOne: "GET /todo/{id}",
+    create: "POST /api/todo",
+    findAll: "GET /api/todo/_search",
+    // findOne: "GET /todo/{id}",
+
+    // makeFindAll: function (findAllData) {
+    //   return function (params, success, error) {
+    //     var self = this;
+
+    //     params = {
+    //       "query": {
+    //           "match_all": {}
+    //        }
+    //     };
+
+    //     var dfd = findAllData(params);
+
+    //     return dfd.pipe(function (data) {
+    //       var todos = data.hits.hits;
+    //       todos = _.pluck(todos, '_source');
+    //       return self.models(todos);
+    //     });
+    //   }
+    // }
 
   }, {
 

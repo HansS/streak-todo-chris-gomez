@@ -1,10 +1,6 @@
 steal(
   'can',
-  './layout.stache!',
-  './layout.less!',
-  'src/component/header',
-  'src/component/form',
-  'src/component/list',
+  './todos.stache!',
   'can/map/define',
 function (can, template) {
 
@@ -14,7 +10,7 @@ function (can, template) {
   });
 
   return can.Component.extend({
-    tag: 'app-layout',
+    tag: 'app-todos',
     template: template,
     scope: ViewModel,
     events: {
@@ -22,6 +18,7 @@ function (can, template) {
 
       },
       inserted: function () {
+
       }
     }
   });

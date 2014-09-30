@@ -1,0 +1,32 @@
+<div class="container">
+
+  <ul class="nav nav-tabs " role="tablist">
+    <li class="{{#isLoginContext}}active{{/isLoginContext}}">
+      <a href="javascript://" can-click="switchToLoginContext">Login</a>
+    </li>
+    <li class="{{#isSignupContext}}active{{/isSignupContext}}">
+      <a href="javascript://" can-click="switchToSignupContext">Signup</a>
+    </li>
+  </ul>
+
+  <form class="form-inline" role="form" can-submit="submit">
+    <div class="form-group">
+      <span class="help-block">
+        {{#isSignupContext}}
+          Signup to create a Streak account.
+        {{else}}
+          Login to access your Streak account.
+        {{/isSignupContext}}
+      </span>
+      <div class="input-group">
+        <input class="form-control" name="username" type="text" placeholder="username" can-value="user.username">
+        <div class="input-group-btn">
+          <button class="pull-right btn btn-default">
+            Go
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

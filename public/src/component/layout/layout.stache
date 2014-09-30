@@ -1,5 +1,0 @@
-<app-header></app-header>
-
-<app-form todos="{user.todos}"></app-form>
-
-<app-list todos="{user.todos}"></app-list>
