@@ -33,24 +33,37 @@ function (can, template) {
 
       },
 
-      shiftAlertAfterInterval: function () {
+      shiftAlertsAfterInterval: function (recursive) {
         var self = this;
+        var scope = self.scope;
+
+        if (this.alertShiftingInProgress && ! recursive) {
+          return;
+        }
+
+        this.alertShiftingInProgress = true;
 
         setTimeout(function () {
 
-          var alertList = self.scope.attr('alerts');
+          console.log('Shifting alert!')
+
+          var alertList = scope.attr('alerts');
 
           alertList.splice(0, 1);
 
           if (alertList.length !== 0) {
-            self.shiftAlertAfterInterval();
+            self.shiftAlertsAfterInterval(true);
+          } else {
+            self.alertShiftingInProgress = false;
           }
 
-        }, 5000);
+        }, 3000);
 
       },
 
-      '{scope.alerts} add': 'shiftAlertAfterInterval'
+      '{scope.alerts} add': function () {
+        this.shiftAlertsAfterInterval();
+      }
     }
   });
 });
