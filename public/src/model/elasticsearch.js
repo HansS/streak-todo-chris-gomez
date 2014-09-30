@@ -9,7 +9,7 @@ function (can, es) {
 
   return can.Model.extend({
 
-    // Static methods
+    // Static
 
     id: '_id',
 
@@ -59,11 +59,19 @@ function (can, es) {
       });
 
       return dfd;
+    },
+
+    parseModel: function () {
+      debugger;
+    },
+
+    parseModels: function () {
+      debugger;
     }
 
   }, {
 
-    // Instance methods
+    // Instance
 
   });
 

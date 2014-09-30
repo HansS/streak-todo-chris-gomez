@@ -6,14 +6,14 @@ steal(
 function (can, ElasticsearchModel, TodoModel) {
   return ElasticsearchModel.extend({
 
-    // Static methods
+    // Static
 
     type: 'user',
 
-
   }, {
 
-    // Instance methods
+    // Instance
+
     define: {
       username: {
         type: 'string',

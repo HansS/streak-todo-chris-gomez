@@ -11,7 +11,7 @@ function (can, template, UserModel) {
     define: {
       context: {
         type: 'string',
-        value: 'signup'
+        value: 'login'
       }
     },
 
@@ -26,7 +26,8 @@ function (can, template, UserModel) {
     },
 
     login: function (context, el, ev) {
-      var username = this.attr('username');
+      var self = this;
+      var username = this.attr('user').attr('username');
 
       if (! username) {
         window.state.attr('alerts').push({
@@ -38,16 +39,29 @@ function (can, template, UserModel) {
         return;
       }
 
-      var def = UserModel.findOne({
-        id: username
-      });
+      var dfd = UserModel.findAll({
+        query: {
+          match: {
+            username: username
+          }
+        }
+      }).then(function (users) {
+        if (! users.length) {
+          window.state.attr('alerts').push({
+            type: 'info',
+            heading: 'Nah-uh',
+            message: 'That user doesn\'t exist.'
+          });
+        }
 
-      def.then(function (model) {
-        console.log(model);
-      });
+        console.log('Parsed model:', users.attr().shift());
 
-      def.fail(function () {
+        // Log em' in!
+        // self.attr('user', users[0]);
+
+      }, function (err) {
         console.log(arguments);
+        throw err;
       });
     },
 
