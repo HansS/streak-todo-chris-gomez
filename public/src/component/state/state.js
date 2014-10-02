@@ -20,6 +20,13 @@ function (can, template, UserModel) {
       user: {
         value: new UserModel()
       }
+    },
+    alert: function (type, heading, message) {
+      this.attr('alerts').push({
+        type: type,
+        heading: heading,
+        message: message
+      });
     }
   });
 

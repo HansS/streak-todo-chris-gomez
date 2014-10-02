@@ -30,11 +30,8 @@ function (can, template, UserModel) {
       var username = this.attr('user').attr('username');
 
       if (! username) {
-        window.state.attr('alerts').push({
-          type: 'info',
-          heading: 'Duh',
-          message: 'You can\'t login without a username.'
-        });
+        window.state
+          .alert('info', 'Duh', 'You can\'t login without a username.');
 
         return;
       }
@@ -50,12 +47,8 @@ function (can, template, UserModel) {
         // If no users were returned, this user probably doesn't have an
         // acount
         if (! users.length) {
-          window.state.attr('alerts').push({
-            type: 'info',
-            heading: 'Nah-uh',
-            message:
-              'That user doesn\'t exist. Are you sure you have an account?'
-          });
+          window.state.alert('info', 'Nah-uh',
+            'That user doesn\'t exist. Are you sure you have an account?');
         }
 
         // Use the first one returned (we hope there was only one).
@@ -71,11 +64,8 @@ function (can, template, UserModel) {
       }, function (err) {
 
         // Generic error message
-        window.state.attr('alerts').push({
-          type: 'danger',
-          heading: 'Darn',
-          message: 'We couldn\'t log you in. Try again.'
-        });
+        window.state.alert('danger', 'Darn',
+          'We couldn\'t log you in. Try again.');
 
         throw err;
       });
@@ -86,11 +76,8 @@ function (can, template, UserModel) {
       var username = this.attr('user').attr('username');
 
       if (! username) {
-        window.state.attr('alerts').push({
-          type: 'info',
-          heading: 'Duh',
-          message: 'You can\'t signup without a username.'
-        });
+        window.state.alert('info', 'Duh',
+          'You can\'t signup without a username.');
 
         return;
       }
@@ -106,11 +93,8 @@ function (can, template, UserModel) {
         if (users.length) {
 
           // User exists already
-          window.state.attr('alerts').push({
-            type: 'warning',
-            heading: 'Sorry',
-            message: 'That username is taken.'
-          });
+          window.state.alert('warning', 'Sorry',
+            'That username is taken.');
 
           return;
         }
@@ -125,11 +109,8 @@ function (can, template, UserModel) {
           .fail(function (err) {
 
             // Generic error message
-            window.state.attr('alerts').push({
-              type: 'danger',
-              heading: 'Shoot',
-              message: 'The server didn\'t save your username. Try again.'
-            });
+            window.state.alert('danger', 'Shoot',
+              'The server didn\'t save your username. Try again.');
 
             throw err;
 
