@@ -46,21 +46,37 @@ function (can, template, UserModel) {
           }
         }
       }).then(function (users) {
+
+        // If no users were returned, this user probably doesn't have an
+        // acount
         if (! users.length) {
           window.state.attr('alerts').push({
             type: 'info',
             heading: 'Nah-uh',
-            message: 'That user doesn\'t exist.'
+            message:
+              'That user doesn\'t exist. Are you sure you have an account?'
           });
         }
 
-        console.log('Parsed model:', users.attr().shift());
+        // Use the first one returned (we hope there was only one).
+        var user = users.shift();
+        var userAttrs = user.attr();
 
         // Log em' in!
-        // self.attr('user', users[0]);
+        userAttrs.loggedIn = true;
+
+        // Save the user's attributes
+        self.attr('user').attr(userAttrs);
 
       }, function (err) {
-        console.log(arguments);
+
+        // Generic error message
+        window.state.attr('alerts').push({
+          type: 'danger',
+          heading: 'Darn',
+          message: 'We couldn\'t log you in. Try again.'
+        });
+
         throw err;
       });
     },
@@ -68,8 +84,6 @@ function (can, template, UserModel) {
     signup: function (context, el, ev) {
       var self = this;
       var username = this.attr('user').attr('username');
-
-      console.log('Signing up..', username)
 
       if (! username) {
         window.state.attr('alerts').push({
@@ -90,21 +104,35 @@ function (can, template, UserModel) {
       }).then(function (users) {
 
         if (users.length) {
+
           // User exists already
           window.state.attr('alerts').push({
             type: 'warning',
             heading: 'Sorry',
             message: 'That username is taken.'
           });
+
           return;
         }
 
         self.attr('user').save()
           .done(function (response) {
-            console.log('Successful create user response:', response)
+
+            // Don't make the user login also
+            self.attr('user').attr('loggedIn', true);
+
           })
           .fail(function (err) {
-            console.log('Failed create user response:', err);
+
+            // Generic error message
+            window.state.attr('alerts').push({
+              type: 'danger',
+              heading: 'Shoot',
+              message: 'The server didn\'t save your username. Try again.'
+            });
+
+            throw err;
+
           });
 
       }, function (err) {
@@ -130,9 +158,9 @@ function (can, template, UserModel) {
       inserted: function () {
         var self = this;
 
-        setTimeout(function () {
-          self.element.find('form').trigger('submit');
-        }, 1000);
+        // setTimeout(function () {
+        //   self.element.find('form').trigger('submit');
+        // }, 1000);
       }
     },
     helpers: {

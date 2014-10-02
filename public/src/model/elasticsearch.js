@@ -13,6 +13,12 @@ function (can, es) {
 
     id: '_id',
 
+    init: function () {
+      this.parseModel = function (model) {
+        return model._source;
+      }
+    },
+
     create: function (attrs) {
       var self = this;
       var dfd = new can.Deferred();
@@ -52,22 +58,13 @@ function (can, es) {
           return;
         }
 
-        var models = self.parseModels(response.hits.hits);
+        var models = response.hits.hits;
 
         dfd.resolve(models);
-
       });
 
       return dfd;
     },
-
-    parseModel: function () {
-      debugger;
-    },
-
-    parseModels: function () {
-      debugger;
-    }
 
   }, {
 
