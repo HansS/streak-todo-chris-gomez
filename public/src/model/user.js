@@ -8,7 +8,7 @@ function (can, ElasticsearchModel, TodoModel) {
 
     // Static
 
-    type: 'user',
+    type: 'user'
 
   }, {
 
@@ -17,7 +17,7 @@ function (can, ElasticsearchModel, TodoModel) {
     define: {
       username: {
         type: 'string',
-        value: 'akagomez'
+        value: ''
       },
       loggedIn: {
         serialize: false,

@@ -19,7 +19,7 @@
         {{/isSignupContext}}
       </span>
       <div class="input-group">
-        <input class="form-control" name="username" type="text" placeholder="username" can-value="user.username">
+        <input class="form-control" name="username" type="text" placeholder="username" can-value="username">
         <div class="input-group-btn">
           <button class="pull-right btn btn-default">
             Go

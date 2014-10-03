@@ -5,10 +5,15 @@ steal(
 
   './auth.less!',
   'can/map/define',
+  'jquery-cookie',
 function (can, template, UserModel) {
 
   var ViewModel = can.Map.extend({
     define: {
+      username: {
+        type: 'string',
+        value: ''
+      },
       context: {
         type: 'string',
         value: 'login'
@@ -18,6 +23,7 @@ function (can, template, UserModel) {
     submit: function (context, el, ev) {
       ev.preventDefault();
 
+      // Question: Should this logic be in the ViewModel?
       if (this.attr('context') === 'login') {
         this.login.apply(this, arguments);
       } else {
@@ -27,7 +33,7 @@ function (can, template, UserModel) {
 
     login: function (context, el, ev) {
       var self = this;
-      var username = this.attr('user').attr('username');
+      var username = this.attr('username');
 
       if (! username) {
         window.state
@@ -56,6 +62,7 @@ function (can, template, UserModel) {
         var userAttrs = user.attr();
 
         // Log em' in!
+        $.cookie('auth_user', userAttrs._id);
         userAttrs.loggedIn = true;
 
         // Save the user's attributes
@@ -73,7 +80,7 @@ function (can, template, UserModel) {
 
     signup: function (context, el, ev) {
       var self = this;
-      var username = this.attr('user').attr('username');
+      var username = this.attr('username');
 
       if (! username) {
         window.state.alert('info', 'Duh',

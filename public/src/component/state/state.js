@@ -10,6 +10,7 @@ steal(
   'src/component/form',
   'src/component/todos',
   'can/map/define',
+  'jquery-cookie',
 function (can, template, UserModel) {
 
   var State = can.Map.extend({
@@ -18,7 +19,29 @@ function (can, template, UserModel) {
         value: new can.List()
       },
       user: {
-        value: new UserModel()
+        value: function () {
+          var userModel = new UserModel();
+          var authUserId = $.cookie('auth_user');
+
+          // If an authUserId is set, get the user model from the DB
+          if (authUserId) {
+            UserModel.findOne({
+              '_id': authUserId
+            }).then(function (model) {
+
+              // Copy the returned model attrs to our userModel
+              userModel.attr(model.attr());
+
+              // Log em' in!
+              userModel.attr('loggedIn', true);
+
+            }, function (err) {
+              console.log(err.stack);
+            });
+          }
+
+          return userModel;
+        }
       }
     },
     alert: function (type, heading, message) {

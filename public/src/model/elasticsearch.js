@@ -14,9 +14,19 @@ function (can, es) {
     id: '_id',
 
     init: function () {
-      this.parseModel = function (model) {
-        return model._source;
-      }
+      this.parseModel = function (data) {
+
+        // There seems to be a bug in CanJS where parseModel is called
+        // twice in succession. Knowing this we can ignore any calls to
+        // parseModel that pass an object with no "_source" property.
+        if (! data._source) {
+          return data;
+        }
+
+        var modelPreppedData = data._source;
+        modelPreppedData._id = data._id;
+        return modelPreppedData;
+      };
     },
 
     create: function (attrs) {
@@ -34,9 +44,33 @@ function (can, es) {
           return;
         }
 
-        attrs._id = response._id;
+        // attrs._id = response._id;
 
-        dfd.resolve(self.parseModel(attrs));
+        dfd.resolve(attrs);
+      });
+
+      return dfd;
+    },
+
+    findOne: function (attrs) {
+
+      var self = this;
+      var dfd = new can.Deferred();
+      var config = {
+        index: 'streak',
+        type: this.type,
+        id: attrs._id
+      };
+
+      esClient.get(config, function (err, response) {
+        if (err) {
+          dfd.reject(err);
+          return;
+        }
+
+        var model = response;
+
+        dfd.resolve(model);
       });
 
       return dfd;
@@ -64,7 +98,7 @@ function (can, es) {
       });
 
       return dfd;
-    },
+    }
 
   }, {
 
