@@ -16,8 +16,9 @@ function (can, state) {
           'signup',
           'logout'
         ],
+        params: {},
         script: 'src/page/auth/',
-        template: '<auth-page user="{user}"></auth-page>'
+        template: '<auth-page user="{user}" context="{route}"></auth-page>'
       },
       {
         path: 'log/:date',
@@ -48,6 +49,9 @@ function (can, state) {
     can.route.bind('route', function(ev, route, previous) {
       var routeMeta = routesByPath[route || ''];
       var previousMeta = routesByPath[previous];
+
+      // Update the application state
+      state.attr('route', route);
 
       // If..
       // The route exists

@@ -2,10 +2,10 @@
 
   <ul class="nav nav-tabs " role="tablist">
     <li class="{{#isLoginContext}}active{{/isLoginContext}}">
-      <a href="javascript://" can-click="switchToLoginContext" tabindex="0">Login</a>
+      <a href="/login" tabindex="0">Login</a>
     </li>
     <li class="{{#isSignupContext}}active{{/isSignupContext}}">
-      <a href="javascript://" can-click="switchToSignupContext" tabindex="0">Signup</a>
+      <a href="/signup" tabindex="0">Signup</a>
     </li>
   </ul>
 

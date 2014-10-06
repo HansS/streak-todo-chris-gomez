@@ -17,7 +17,7 @@ function (can, template, state, UserModel) {
       },
       context: {
         type: 'string',
-        value: 'login'
+        value: ''
       }
     },
 
@@ -127,15 +127,7 @@ function (can, template, state, UserModel) {
         console.log(arguments)
         throw err;
       });
-    },
-
-    switchToLoginContext: function () {
-      this.attr('context', 'login');
-    },
-
-    switchToSignupContext: function () {
-      this.attr('context', 'signup');
-    },
+    }
   });
 
   return can.Component.extend({
