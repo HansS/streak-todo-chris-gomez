@@ -1,10 +1,12 @@
-<app-header></app-header>
+{{#if ready}}
+  <app-header></app-header>
 
-<app-alerts alerts="{alerts}"></app-alerts>
+  <app-alerts alerts="{alerts}"></app-alerts>
 
-{{^if user.loggedIn }}
-  <app-auth user="{user}"></app-auth>
-{{else}}
-  <app-form todos="{user.todos}"></app-form>
-  <app-todos todos="{user.todos}"></app-todos>
+  {{^if user.loggedIn }}
+    <app-auth user="{user}"></app-auth>
+  {{else}}
+    <app-form todos="{user.todos}"></app-form>
+    <app-todos todos="{user.todos}"></app-todos>
+  {{/if}}
 {{/if}}

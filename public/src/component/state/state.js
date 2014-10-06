@@ -15,11 +15,16 @@ function (can, template, UserModel) {
 
   var State = can.Map.extend({
     define: {
+      ready: {
+        type: 'boolean',
+        value: false
+      },
       alerts: {
         value: new can.List()
       },
       user: {
         value: function () {
+          var self = this;
           var userModel = new UserModel();
           var authUserId = $.cookie('auth_user');
 
@@ -29,12 +34,15 @@ function (can, template, UserModel) {
               '_id': authUserId
             }).then(function (model) {
 
-              // Copy the returned model attrs to our userModel
-              userModel.attr(model.attr());
+              if (model) {
+                // Copy the returned model attrs to our userModel
+                userModel.attr(model.attr());
 
-              // Log em' in!
-              userModel.attr('loggedIn', true);
+                // Log em' in!
+                userModel.attr('loggedIn', true);
+              }
 
+              self.attr('ready', true);
             }, function (err) {
               console.log(err.stack);
             });
