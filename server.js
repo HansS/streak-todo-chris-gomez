@@ -6,6 +6,7 @@ var url = require('url');
 // NPM
 var connect = require('connect');
 var serveStatic = require('serve-static');
+var modRewrite = require('connect-modrewrite');
 var proxy = require('proxy-middleware');
 
 // Configuration
@@ -15,6 +16,14 @@ var ELASTICSEARCH_URL = url.parse(
 
 // Server
 var app = connect();
+
+// Rewrite routes to index.html
+app.use(modRewrite([
+  '^/signup /index.html',
+  '^/login /index.html',
+  '^/logout /index.html',
+  '^/log/* /index.html'
+]));
 
 app.use(serveStatic('public', {
   index: ['index.html']

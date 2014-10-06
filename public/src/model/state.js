@@ -1,17 +1,9 @@
 steal(
   'can',
-  './state.stache!',
-  'src/model/user.js',
-
-  './state.less!',
-  'src/component/header',
-  'src/component/auth',
-  'src/component/alerts',
-  'src/component/form',
-  'src/component/todos',
+  './user.js',
   'can/map/define',
   'jquery-cookie',
-function (can, template, UserModel) {
+function (can, UserModel) {
 
   var State = can.Map.extend({
     define: {
@@ -42,7 +34,6 @@ function (can, template, UserModel) {
                 userModel.attr('loggedIn', true);
               }
 
-              self.attr('ready', true);
             }, function (err) {
               console.log(err.stack);
             });
@@ -63,14 +54,6 @@ function (can, template, UserModel) {
 
   var state = window.state = new State();
 
-  return can.Component.extend({
-    tag: 'app-state',
-    template: template,
-    scope: state,
-    events: {
-      inserted: function () {
+  return state;
 
-      }
-    }
-  });
 });

@@ -1,12 +1,13 @@
 steal(
   'can',
   './auth.stache!',
+  'src/model/state.js',
   'src/model/user.js',
 
   './auth.less!',
   'can/map/define',
   'jquery-cookie',
-function (can, template, UserModel) {
+function (can, template, state, UserModel) {
 
   var ViewModel = can.Map.extend({
     define: {
@@ -36,8 +37,7 @@ function (can, template, UserModel) {
       var username = this.attr('username');
 
       if (! username) {
-        window.state
-          .alert('info', 'Duh', 'You can\'t login without a username.');
+        state.alert('info', 'Duh', 'You can\'t login without a username.');
 
         return;
       }
@@ -53,7 +53,7 @@ function (can, template, UserModel) {
         // If no users were returned, this user probably doesn't have an
         // acount
         if (! users.length) {
-          window.state.alert('info', 'Nah-uh',
+          state.alert('info', 'Nah-uh',
             'That user doesn\'t exist. Are you sure you have an account?');
         }
 
@@ -71,7 +71,7 @@ function (can, template, UserModel) {
       }, function (err) {
 
         // Generic error message
-        window.state.alert('danger', 'Darn',
+        state.alert('danger', 'Darn',
           'We couldn\'t log you in. Try again.');
 
         throw err;
@@ -83,7 +83,7 @@ function (can, template, UserModel) {
       var username = this.attr('username');
 
       if (! username) {
-        window.state.alert('info', 'Duh',
+        state.alert('info', 'Duh',
           'You can\'t signup without a username.');
 
         return;
@@ -100,7 +100,7 @@ function (can, template, UserModel) {
         if (users.length) {
 
           // User exists already
-          window.state.alert('warning', 'Sorry',
+          state.alert('warning', 'Sorry',
             'That username is taken.');
 
           return;
@@ -116,7 +116,7 @@ function (can, template, UserModel) {
           .fail(function (err) {
 
             // Generic error message
-            window.state.alert('danger', 'Shoot',
+            state.alert('danger', 'Shoot',
               'The server didn\'t save your username. Try again.');
 
             throw err;
@@ -139,7 +139,7 @@ function (can, template, UserModel) {
   });
 
   return can.Component.extend({
-    tag: 'app-auth',
+    tag: 'auth-page',
     template: template,
     scope: ViewModel,
     events: {

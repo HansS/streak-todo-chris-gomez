@@ -45,8 +45,6 @@ function (can, template) {
 
         setTimeout(function () {
 
-          console.log('Shifting alert!')
-
           var alertList = scope.attr('alerts');
 
           alertList.splice(0, 1);
