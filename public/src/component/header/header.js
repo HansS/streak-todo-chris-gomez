@@ -23,12 +23,19 @@ function (can, template) {
         $(document).off('click', this.onDocumentClick);
       },
 
-      '.navbar-collapse a click': function () {
-        this.hideNavCollapse()
+      // If any link in the header is clicked, attempt to close the
+      // collapse menu
+      'a click': function () {
+        this.hideNavCollapse();
       },
 
+      // If the collapse menu is opened, close it.
+      // Note: This can't be run regardless of open/closed because
+      // there is a bug in Bootstrap where calling "hide" opens the menu
       hideNavCollapse: function () {
-        this.element.find('.navbar-collapse').collapse('hide');
+        if (this.element.find('.navbar-collapse').hasClass('in')) {
+          this.element.find('.navbar-collapse').collapse('hide');
+        }
       },
 
       blurNavCollapse: function (ev) {

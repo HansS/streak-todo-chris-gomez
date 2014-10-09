@@ -1,13 +1,3 @@
 <app-header></app-header>
 <app-alerts alerts="{alerts}"></app-alerts>
-
 <main></main>
-
-<!--
-{{^if user.loggedIn }}
-  <app-auth user="{user}"></app-auth>
-{{else}}
-  <app-form todos="{user.todos}"></app-form>
-  <app-todos todos="{user.todos}"></app-todos>
-{{/if}}
--->

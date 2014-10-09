@@ -32,7 +32,7 @@ steal.config({
     }
   },
   ext: {
-    stache: "src/utils/system_stache"
+    stache: "src/utils/system-stache"
   }
 });
 

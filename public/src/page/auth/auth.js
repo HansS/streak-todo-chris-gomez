@@ -68,6 +68,14 @@ function (can, template, state, UserModel) {
         // Save the user's attributes
         self.attr('user').attr(userAttrs);
 
+        console.log('Logged in!')
+
+        can.route.attr({
+          template: 'log',
+          context: 'log',
+          date: +new Date()
+        });
+
       }, function (err) {
 
         // Generic error message

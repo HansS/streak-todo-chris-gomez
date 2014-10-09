@@ -5,16 +5,43 @@ steal(
   'jquery-cookie',
 function (can, UserModel) {
 
+  var syncValuesBlacklist = [
+    'auth',
+    'login',
+    'signup',
+    'logout'
+  ];
+
+  var syncValue = function (propertyToSync) {
+    return function (newValue) {
+      // If this value is not in the blacklist...
+      // And, its value doesn't already match,
+      // synchronize it.
+      if (syncValuesBlacklist.indexOf(newValue) === -1 &&
+          this.attr(propertyToSync) !== newValue) {
+        this.attr(propertyToSync, newValue);
+      }
+
+      return newValue;
+    };
+  };
+
   var State = can.Map.extend({
     define: {
-      ready: {
-        type: 'boolean',
-        value: false
+      context: {
+        serialize: true,
+        // set: syncValue('template')
+      },
+      template: {
+        serialize: true,
+        // set: syncValue('context')
       },
       alerts: {
+        serialize: false,
         value: new can.List()
       },
       user: {
+        serialize: false,
         value: function () {
           var self = this;
           var userModel = new UserModel();

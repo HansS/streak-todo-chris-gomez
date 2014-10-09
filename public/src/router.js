@@ -1,71 +1,72 @@
 steal(
   'can',
   'src/model/state.js',
+  'can/map/define',
   'can/route/pushstate',
 function (can, state) {
   return function (model, mainEl) {
-    var routes = [
-      {
-        path: '',
+
+    var routes = {
+      '': {
+        template: 'landing',
+        context: 'landing',
+      },
+      '/login': {
+        template: 'auth',
+        context: 'login'
+      },
+      '/signup': {
+        template: 'auth',
+        context: 'signup'
+      },
+      '/logout': {
+        template: 'auth',
+        context: 'logout'
+      },
+      '/log/:date': {
+        template: 'log',
+        context: 'log',
+      }
+    };
+
+    var templates = {
+      landing: {
         script: 'src/page/landing/',
-        template: '<landing-page></landing-page>'
+        markup: '<landing-page></landing-page>',
       },
-      {
-        path: [
-          'login',
-          'signup',
-          'logout'
-        ],
-        params: {},
+      auth: {
         script: 'src/page/auth/',
-        template: '<auth-page user="{user}" context="{route}"></auth-page>'
+        markup: '<auth-page user="{user}" context="{context}"></auth-page>'
       },
-      {
-        path: 'log/:date',
+      log: {
         script: 'src/page/log/',
-        template: '<log-page></log-page>'
+        markup: '<log-page></log-page>'
       }
-    ];
+    };
 
-    var routesByPath = {};
+    can.route.map(state);
 
-    // Index the routes by path
-    can.each(routes, function (route) {
-      if (typeof route.path === 'string') {
-        routesByPath[route.path] = route;
-      } else {
-        can.each(route.path, function (path) {
-          routesByPath[path] = route;
-        });
-      }
+    // // Index the routes by path
+    can.each(routes, function (params, route) {
+      can.route(route, params);
     });
 
-    // Register the route
-    can.each(routesByPath, function (route, path) {
-      can.route(path, route.params);
-    });
+    // Listen for changes to can.route.attr('template') so that we can
+    // the insert the page component template and load its javascript
+    can.route.bind('change', function (ev, property, change, newVal) {
 
-    // Handle route changes
-    can.route.bind('route', function(ev, route, previous) {
-      var routeMeta = routesByPath[route || ''];
-      var previousMeta = routesByPath[previous];
+      // If the "template" property is updated, load a different template
+      if (property === 'template') {
 
-      // Update the application state
-      state.attr('route', route);
+        var template = templates[newVal];
 
-      // If..
-      // The route exists
-      // And, the routeMeta exists
-      // And, there is no previousMeta
-      //  Or, the previous template is the same as the current template
-      if(typeof route !== 'undefined' && routeMeta && (! previousMeta ||
-          (previousMeta.template !== routeMeta.template))) {
+        console.log(template);
 
         // Get the component JS
-        System.import(routeMeta.script).then(function() {
+        System.import(template.script).then(function() {
 
           // Insert the component HTML tag
-          var fragment = can.stache(routeMeta.template)(state);
+          var fragment = can.stache(template.markup)(state);
           mainEl.html(fragment);
 
         });
@@ -74,5 +75,5 @@ function (can, state) {
 
     // Start the router
     can.route.ready();
-  }
+  };
 });
