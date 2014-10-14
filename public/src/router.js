@@ -8,39 +8,48 @@ function (can, state) {
 
     var routes = {
       '': {
-        template: 'landing',
-        context: 'landing',
+        controller: 'landing',
+        action: 'index'
       },
       '/login': {
-        template: 'auth',
-        context: 'login'
+        controller: 'auth',
+        action: 'login'
       },
       '/signup': {
-        template: 'auth',
-        context: 'signup'
+        controller: 'auth',
+        action: 'signup'
       },
       '/logout': {
-        template: 'auth',
-        context: 'logout'
+        controller: 'auth',
+        action: 'logout'
+      },
+      '/log': {
+        controller: 'log',
+        action: 'index'
       },
       '/log/:date': {
-        template: 'log',
-        context: 'log',
+        controller: 'log',
+        action: 'date',
+      },
+      '/log/:fromDate...:toDate': {
+        controller: 'log',
+        action: 'range',
       }
     };
 
-    var templates = {
+    var controllers = {
       landing: {
-        script: 'src/page/landing/',
-        markup: '<landing-page></landing-page>',
+        script: 'src/controller/landing/',
+        markup: '<landing-controller></landing-controller>',
       },
       auth: {
-        script: 'src/page/auth/',
-        markup: '<auth-page user="{user}" context="{context}"></auth-page>'
+        script: 'src/controller/auth/',
+        markup: '<auth-controller user="{user}" action="{action}"></auth-controller>'
       },
       log: {
-        script: 'src/page/log/',
-        markup: '<log-page></log-page>'
+        script: 'src/controller/log/',
+        markup: '<log-controller></log-controller>',
+        requireAuth: true
       }
     };
 
@@ -51,26 +60,64 @@ function (can, state) {
       can.route(route, params);
     });
 
-    // Listen for changes to can.route.attr('template') so that we can
-    // the insert the page component template and load its javascript
-    can.route.bind('change', function (ev, property, change, newVal) {
 
-      // If the "template" property is updated, load a different template
-      if (property === 'template') {
+    // Keep track of the route number so we can detect when "route" events
+    // are fired twice (i.e. When the route === '').
+    var lastBatchNum = null;
 
-        var template = templates[newVal];
+    can.route.bind('route', function (ev, route, oldRoute) {
+      var currentBatchNum = ev.batchNum;
 
-        console.log(template);
+      // console.log(ev)
+      // console.log(lastBatchNum, currentBatchNum, route)
 
-        // Get the component JS
-        System.import(template.script).then(function() {
-
-          // Insert the component HTML tag
-          var fragment = can.stache(template.markup)(state);
-          mainEl.html(fragment);
-
-        });
+      // Don't bother rendering anything if this is just CanJS
+      // wigging out. Unless it's wigging out by excluding a batchNum.
+      // In that case there's nothing we can do.
+      if (currentBatchNum !== undefined && currentBatchNum === lastBatchNum) {
+        return;
       }
+
+      // Update our records.
+      lastBatchNum = currentBatchNum;
+
+      var controllerName = can.route.attr('controller');
+      var controllerMeta = controllers[controllerName];
+
+      console.log(controllerMeta)
+
+      // If this is a controller that requires authentication, and
+      // the user isn't authenticated, take them to the login page.
+      if (controllerMeta.requireAuth && ! can.route.attr('authenticated')) {
+
+        can.route.attr({
+          controller: 'auth',
+          action: 'login',
+          returnUrl: window.location.pathname + window.location.search
+        });
+
+        state.alert('warning', 'Sorry',
+          'You\'ll need to login to access that page');
+
+        return;
+      }
+
+      // Get the component JS
+      System.import(controllerMeta.script).then(function() {
+
+        // Check that this script is still relevant. The route may
+        // have changed since we started loading the script
+        if (controllerName !== can.route.attr('controller')) {
+          return;
+        }
+
+        console.log(controllerMeta.script)
+
+        // Insert the component HTML tag
+        var fragment = can.stache(controllerMeta.markup)(state);
+        mainEl.html(fragment);
+      });
+
     });
 
     // Start the router

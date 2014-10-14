@@ -1,54 +1,27 @@
 steal(
   'can',
   'lodash',
-  'can/map/define',
-function (can, _) {
+  'src/model/elasticsearch.js',
 
-  var Todo = can.Model.extend({
+  'can/map/define',
+function (can, _, ElasticsearchModel) {
+  var Todo = ElasticsearchModel.extend({
 
     // Static methods
 
-    // parseModels: 'todos',
-
-    create: "POST /api/todo",
-    findAll: "GET /api/todo/_search",
-    // findOne: "GET /todo/{id}",
-
-    // makeFindAll: function (findAllData) {
-    //   return function (params, success, error) {
-    //     var self = this;
-
-    //     params = {
-    //       "query": {
-    //           "match_all": {}
-    //        }
-    //     };
-
-    //     var dfd = findAllData(params);
-
-    //     return dfd.pipe(function (data) {
-    //       var todos = data.hits.hits;
-    //       todos = _.pluck(todos, '_source');
-    //       return self.models(todos);
-    //     });
-    //   }
-    // }
+    type: 'todo'
 
   }, {
 
     // Instance methods
 
     define: {
-      isCompleted: {
-        get: function () {
-          return this.attr('state') == 'completed';
-        }
-      }
+
     }
+
   });
 
   Todo.List = Todo.List.extend({
-
   });
 
   return Todo;

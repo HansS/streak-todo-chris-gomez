@@ -15,24 +15,24 @@ function (can, template, state, UserModel) {
         type: 'string',
         value: ''
       },
-      context: {
+      action: {
         type: 'string',
         value: ''
       }
     },
 
-    submit: function (context, el, ev) {
+    submit: function (action, el, ev) {
       ev.preventDefault();
 
       // Question: Should this logic be in the ViewModel?
-      if (this.attr('context') === 'login') {
+      if (this.attr('action') === 'login') {
         this.login.apply(this, arguments);
       } else {
         this.signup.apply(this, arguments);
       }
     },
 
-    login: function (context, el, ev) {
+    login: function (action, el, ev) {
       var self = this;
       var username = this.attr('username');
 
@@ -62,18 +62,17 @@ function (can, template, state, UserModel) {
         var userAttrs = user.attr();
 
         // Log em' in!
-        $.cookie('auth_user', userAttrs._id);
+        $.cookie('auth_user', user._id);
         userAttrs.loggedIn = true;
 
         // Save the user's attributes
         self.attr('user').attr(userAttrs);
 
-        console.log('Logged in!')
-
+        // Go to app
+        can.route.removeAttr('returnUrl');
         can.route.attr({
-          template: 'log',
-          context: 'log',
-          date: +new Date()
+          controller: 'log',
+          action: 'index'
         });
 
       }, function (err) {
@@ -86,7 +85,7 @@ function (can, template, state, UserModel) {
       });
     },
 
-    signup: function (context, el, ev) {
+    signup: function (action, el, ev) {
       var self = this;
       var username = this.attr('username');
 
@@ -132,35 +131,43 @@ function (can, template, state, UserModel) {
           });
 
       }, function (err) {
-        console.log(arguments)
+        console.log(arguments);
         throw err;
       });
     }
   });
 
   return can.Component.extend({
-    tag: 'auth-page',
+    tag: 'auth-controller',
     template: template,
     scope: ViewModel,
     events: {
       inserted: function () {
-        var self = this;
-
-        // setTimeout(function () {
-        //   self.element.find('form').trigger('submit');
-        // }, 1000);
+        if (this.scope.attr('action') === 'logout') {
+          this.logout();
+        }
+      },
+      logout: function () {
+        $.removeCookie('auth_user');
+        state.attr('user').attr({}, true);
+        state.attr('action', 'login')
+      },
+      '{scope} action': function () {
+        if (this.scope.attr('action') === 'logout') {
+          this.logout();
+        }
       }
     },
     helpers: {
       isLoginContext: function (options) {
-        if (this.attr('context') === 'login') {
+        if (this.attr('action') === 'login') {
           return options.fn();
         } else {
           return options.inverse();
         }
       },
       isSignupContext: function (options) {
-        if (this.attr('context') === 'signup') {
+        if (this.attr('action') === 'signup') {
           return options.fn();
         } else {
           return options.inverse();

@@ -1,15 +1,20 @@
 steal(
   'can',
   './user.js',
+  './todo.js',
   'can/map/define',
   'jquery-cookie',
-function (can, UserModel) {
+function (can, UserModel, TodoModel) {
 
   var syncValuesBlacklist = [
     'auth',
     'login',
     'signup',
     'logout'
+  ];
+
+  var requireAuth = [
+    'log'
   ];
 
   var syncValue = function (propertyToSync) {
@@ -28,13 +33,25 @@ function (can, UserModel) {
 
   var State = can.Map.extend({
     define: {
-      context: {
-        serialize: true,
-        // set: syncValue('template')
+      authenticated: {
+        serialize: false,
+        type: 'boolean',
+        value: false,
+        get: function () {
+          return !!($.cookie('auth_user'));
+        }
       },
-      template: {
+      action: {
         serialize: true,
-        // set: syncValue('context')
+        type: 'string'
+      },
+      controller: {
+        serialize: true,
+        type: 'string'
+      },
+      returnUrl: {
+        serialize: true,
+        type: 'string'
       },
       alerts: {
         serialize: false,
@@ -46,6 +63,10 @@ function (can, UserModel) {
           var self = this;
           var userModel = new UserModel();
           var authUserId = $.cookie('auth_user');
+
+          userModel.attr({
+            _id: authUserId
+          });
 
           // If an authUserId is set, get the user model from the DB
           if (authUserId) {
@@ -68,6 +89,10 @@ function (can, UserModel) {
 
           return userModel;
         }
+      },
+      todos: {
+        serialize: false,
+        value: new TodoModel.List()
       }
     },
     alert: function (type, heading, message) {

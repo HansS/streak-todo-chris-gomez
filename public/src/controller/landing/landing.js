@@ -11,7 +11,7 @@ function (can, template) {
   })
 
   return can.Component.extend({
-    tag: 'landing-page',
+    tag: 'landing-controller',
     template: template,
     scope: viewModel,
     events: {

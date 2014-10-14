@@ -1,16 +1,20 @@
 steal(
   'can',
   './form.stache!',
+  'src/model/state.js',
   'src/model/todo.js',
   './form.less!',
   'can/map/define',
-function (can, template, TodoModel) {
+function (can, template, state, TodoModel) {
 
   var ViewModel = can.Map.extend({
     define: {
     },
 
     createTodo: function (context, el, ev) {
+
+      // Don't submit the form
+      ev.preventDefault();
 
       // Get the todo input
       var input = el.find('[name="title"]');
@@ -20,6 +24,7 @@ function (can, template, TodoModel) {
 
       // Create a todo model
       var todoModel = new TodoModel({
+        user_id: state.attr('user').attr('_id'),
         title: title,
         state: 'pending'
       });
@@ -27,14 +32,13 @@ function (can, template, TodoModel) {
       // Add the todo to the beginning of the todo list
       this.attr('todos').unshift(todoModel);
 
-      // Persiste the model to the server
+      // Persist the model to the server
       todoModel.save();
 
       // Empty the input
       input.val('').trigger('change');
 
-      // Don't submit the form
-      ev.preventDefault();
+
     }
   });
 

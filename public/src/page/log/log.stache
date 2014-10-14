@@ -1,2 +1,0 @@
-<app-form todos="{user.todos}"></app-form>
-<app-todos todos="{user.todos}"></app-todos>

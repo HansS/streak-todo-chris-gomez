@@ -1,0 +1,2 @@
+<app-form todos="{todos}"></app-form>
+<app-todos todos="{todos}"></app-todos>
