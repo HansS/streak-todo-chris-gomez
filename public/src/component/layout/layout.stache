@@ -1,3 +1,4 @@
 <app-header></app-header>
 <app-alerts alerts="{alerts}"></app-alerts>
 <main></main>
+<app-modal></app-modal>
