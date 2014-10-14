@@ -16,7 +16,12 @@ function (can, template, viewModel, UserModel) {
     scope: viewModel,
     events: {
       inserted: function () {
-
+        this.ignoreJavascriptLinks()
+      },
+      ignoreJavascriptLinks: function () {
+        $('body').on('click', '[href="javascript://"]', function (ev) {
+          ev.preventDefault();
+        });
       }
     }
   });
