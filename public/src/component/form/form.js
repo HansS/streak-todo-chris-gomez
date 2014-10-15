@@ -26,10 +26,12 @@ function (can, template, state, TodoModel) {
       var todoModel = new TodoModel({
         user_id: state.attr('user').attr('_id'),
         title: title,
-        state: 'pending'
+        state: 'pending',
+        created_at: new Date()
       });
 
       // Add the todo to the beginning of the todo list
+      // TODO: Don't rely on unshift. Sort Todo.List by created date/time
       this.attr('todos').unshift(todoModel);
 
       // Persist the model to the server

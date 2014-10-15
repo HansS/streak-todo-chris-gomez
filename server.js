@@ -11,9 +11,10 @@ var proxy = require('proxy-middleware');
 
 // Configuration
 var PORT = 9000;
-var ELASTICSEARCH_URL = url.parse(
-  'https://site:45083ed4c9c3c470952e4d34cffd97ed@bofur-us-east-1.searchly.com');
-// var ELASTICSEARCH_URL = 'http://localdocker:9200';
+
+// Fig give us a TCP address. We want an HTTP address.
+var ES_URL = process.env.ES_1_PORT.replace('tcp', 'http');
+var ES_CONNECTION_CONFIG = url.parse(ES_URL);
 
 // Server
 var app = connect();
@@ -34,7 +35,7 @@ app.use(serveStatic('public', {
   index: ['index.html']
 }));
 
-app.use('/api', proxy(ELASTICSEARCH_URL));
+app.use('/api', proxy(ES_CONNECTION_CONFIG));
 
 app.listen(PORT);
 

@@ -1,0 +1,14 @@
+#!/usr/local/bin/node
+
+var elasticsearch = require('elasticsearch');
+var url = require('url');
+
+var ES_URL = process.env.ES_1_PORT.replace('tcp', 'http');
+var ES_CONNECTION_CONFIG = url.parse(ES_URL);
+var client = new elasticsearch.Client(ES_CONNECTION_CONFIG);
+
+client.indices.create({
+  index: 'streak'
+}).then(function () {
+  console.log('"streak" index created!');
+});

@@ -1,6 +1,8 @@
 steal(
   'can',
   './todos.stache!',
+
+  './todos.less!',
   'can/map/define',
 function (can, template) {
 

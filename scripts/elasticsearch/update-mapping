@@ -1,0 +1,176 @@
+#!/usr/local/bin/node
+
+var fs = require('fs');
+var async = require('async');
+var url = require('url');
+var spawn = require('child_process').spawn;
+var elasticsearch = require('elasticsearch');
+var url = require('url');
+
+var ES_URL = process.env.ES_1_PORT.replace('tcp', 'http');
+var ES_CONNECTION_CONFIG = url.parse(ES_URL);
+var ALIAS_NAME = 'streak';
+var CURRENT_INDEX_NAME = null;
+var DATE_SUFFIX = new Date().toISOString()
+  .replace(/T/g, '_')
+  .replace(/:/g, '-')
+  .replace(/\..+/, '');
+var NEW_INDEX_NAME = ALIAS_NAME + '_' + DATE_SUFFIX;
+var EXISTING_INDEX = ES_URL + '/' + ALIAS_NAME;
+var NEW_INDEX = ES_URL + '/' + NEW_INDEX_NAME;
+var ELASTICDUMP_BIN = 'elasticdump';
+
+var client = new elasticsearch.Client(ES_CONNECTION_CONFIG);
+
+console.log('/**')
+console.log('* Existing index:', EXISTING_INDEX);
+console.log('* New index:', NEW_INDEX);
+console.log('**/')
+
+var print = function (prefix, data) {
+
+  if (typeof data === 'undefined') {
+    data = prefix;
+    prefix = undefined;
+  }
+
+  var output = data.toString().replace(/\n$/gm, '');
+
+  if (prefix) {
+    console.log(prefix, output);
+  } else {
+    console.log(output);
+  }
+}
+
+var run = function (cmd, args, callback) {
+  var ps  = spawn(cmd, args);
+
+  ps.stdout.on('data', function (data) {
+    print(data);
+  });
+
+  ps.stderr.on('data', function (data) {
+    print('stderr:', data);
+  });
+
+  ps.on('close', function (code, message) {
+    console.log('\n' + cmd, args.join(' '), 'exited with code:', code);
+
+    // Throw an error if the process exits with a "1"
+    callback(code === 0 ? null : true);
+  });
+}
+
+var makeCreateIndex = function (name, ignoreError) {
+  return function (callback) {
+    client.indices.create({
+      index: name
+    }, function (err, response, status) {
+      console.log('Create index "' + NEW_INDEX_NAME + '":', response)
+
+      if (ignoreError) {
+        err = null;
+      }
+
+      callback(err);
+    });
+  }
+}
+
+var makeCreateMapping = function (type) {
+  return function (callback) {
+
+    var path = process.cwd() + '/config/elasticsearch/mapping/' + type + '.js';
+    var body = require(path);
+
+    client.indices.putMapping({
+      index: NEW_INDEX_NAME,
+      type: type,
+      body: body
+    }, function (err, response, status) {
+      console.log('Put "' + type + '" mapping:', response);
+      callback(err);
+    });
+  }
+}
+
+var makeCopyData = function (type) {
+  return function (callback) {
+    run(ELASTICDUMP_BIN, [
+      '--input=' + EXISTING_INDEX + '/' + type,
+      '--output=' + NEW_INDEX + '/' + type,
+      '--type=data'
+    ], callback);
+  }
+}
+
+
+
+async.series({
+
+  // Create "streak_yyyy-mm-dd--hh-mm-ss" index
+  // createDefaultIndex: makeCreateIndex(ALIAS_NAME, true),
+  createNewIndex: makeCreateIndex(NEW_INDEX_NAME),
+
+  // Put the mapping from "/config/elasticsearch/mapping.json"
+  createUserMapping: makeCreateMapping('user'),
+  createTodoMapping: makeCreateMapping('todo'),
+
+  // Bulk copy the docs from "streak" to "streak_yyyy-mm-dd--hh-mm-ss"
+  copyUserDocs: makeCopyData('user'),
+
+  getCurrentIndexName: function (callback) {
+    client.indices.getAliases({
+      index: ALIAS_NAME
+    }, function (err, response, status) {
+      CURRENT_INDEX_NAME = Object.keys(response)[0];
+      callback(err);
+    })
+  },
+
+  // Point the "streak" alias at "streak_yyyy-mm-dd--hh-mm-ss"
+  updateAlias: function (callback) {
+
+    var actions = [];
+
+    if (CURRENT_INDEX_NAME) {
+      actions.push({
+        remove: { index: CURRENT_INDEX_NAME, alias: ALIAS_NAME } });
+    }
+
+    actions.push({ add: { index: NEW_INDEX_NAME, alias: ALIAS_NAME } });
+
+    client.indices.updateAliases({
+      body: {
+        actions: actions
+      }
+    }, function (err, response, status) {
+      console.log('Update aliases:', response)
+      callback(err)
+    });
+  },
+
+  results: function (callback) {
+    client.indices.getAliases({
+      index: ALIAS_NAME
+    }, function (err, response, status) {
+      console.log('Resulting aliases:')
+      console.log(response)
+      callback(err);
+    })
+  },
+
+}, function (err, result) {
+  if (err) {
+    throw err;
+  }
+
+  console.log('Success!')
+  process.exit();
+})
+
+
+
+
+
