@@ -22,6 +22,7 @@ function (can, _, ElasticsearchModel) {
   });
 
   Todo.List = Todo.List.extend({
+    comparator: 'created_at'
   });
 
   return Todo;

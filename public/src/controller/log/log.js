@@ -32,6 +32,11 @@ function (can, template, state, TodoModel) {
             match: {
               user_id: userId
             }
+          },
+          sort: {
+            created_at: {
+              order: 'desc'
+            }
           }
         }).then(function (todoModels) {
           state.attr('todos').replace(todoModels);
