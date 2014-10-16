@@ -55,7 +55,7 @@ function (can, template) {
             self.alertShiftingInProgress = false;
           }
 
-        }, 3000);
+        }, 5000);
 
       },
 
