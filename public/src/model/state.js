@@ -38,7 +38,7 @@ function (can, UserModel, TodoModel) {
         type: 'boolean',
         value: false,
         get: function () {
-          return !!($.cookie('auth_user'));
+          return (!!($.cookie('auth_user')) || this.attr('user').attr('_id'));
         }
       },
       action: {
