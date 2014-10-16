@@ -41,6 +41,19 @@ function (can, state) {
       landing: {
         script: 'src/controller/landing/',
         markup: '<landing-controller></landing-controller>',
+        preDispatch: function () {
+
+          // Redirect to app if authenticated
+          if (can.route.attr('authenticated')) {
+            can.route.attr({
+              controller: 'log',
+              action: 'index'
+            });
+
+            // Don't continue the original route
+            return false;
+          }
+        }
       },
       auth: {
         script: 'src/controller/auth/',
@@ -53,9 +66,10 @@ function (can, state) {
       }
     };
 
+    // Use our state object for route attrs
     can.route.map(state);
 
-    // // Index the routes by path
+    // Index the routes by path
     can.each(routes, function (params, route) {
       can.route(route, params);
     });
@@ -84,7 +98,16 @@ function (can, state) {
       var controllerName = can.route.attr('controller');
       var controllerMeta = controllers[controllerName];
 
-      console.log(controllerMeta)
+      // If there's a preDispatch function, call it
+      if (controllerMeta.preDispatch &&
+          can.isFunction(controllerMeta.preDispatch)) {
+
+        // If the preDispatch function returns false, treat it like
+        // an onclick handler and don't continue
+        if (! controllerMeta.preDispatch()) {
+          return;
+        }
+      }
 
       // If this is a controller that requires authentication, and
       // the user isn't authenticated, take them to the login page.
@@ -93,6 +116,8 @@ function (can, state) {
         can.route.attr({
           controller: 'auth',
           action: 'login',
+
+          // TODO: Figure out how to make this useful
           returnUrl: window.location.pathname + window.location.search
         });
 
@@ -102,16 +127,18 @@ function (can, state) {
         return;
       }
 
+      console.log('Loading..', controllerMeta.script);
+
       // Get the component JS
       System.import(controllerMeta.script).then(function() {
 
         // Check that this script is still relevant. The route may
-        // have changed since we started loading the script
+        // have changed since we started loading it
         if (controllerName !== can.route.attr('controller')) {
           return;
         }
 
-        console.log(controllerMeta.script)
+        console.log('Rendering..', controllerMeta.markup);
 
         // Insert the component HTML tag
         var fragment = can.stache(controllerMeta.markup)(state);
