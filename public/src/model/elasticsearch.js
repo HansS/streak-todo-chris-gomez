@@ -44,9 +44,7 @@ function (can, es) {
           return;
         }
 
-        // attrs._id = response._id;
-
-        dfd.resolve(attrs);
+        dfd.resolve(response);
       });
 
       return dfd;

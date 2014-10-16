@@ -113,11 +113,23 @@ function (can, template, state, UserModel) {
           return;
         }
 
+        // Make note of this moment in time.
+        self.attr('user').attr({
+          username: username,
+          created_at: new Date().toISOString()
+        });
+
         self.attr('user').save()
           .done(function (response) {
 
-            // Don't make the user login also
-            self.attr('user').attr('loggedIn', true);
+            // Make the model a real.
+            self.attr('user').attr('_id', response._id);
+
+            // Send the user off to do some work.
+            can.route.attr({
+              controller: 'log',
+              action: 'index'
+            });
 
           })
           .fail(function (err) {

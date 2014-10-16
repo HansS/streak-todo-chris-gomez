@@ -26,8 +26,7 @@ function (can, template, state, TodoModel) {
       var todoModel = new TodoModel({
         user_id: state.attr('user').attr('_id'),
         title: title,
-        state: 'pending',
-        created_at: new Date()
+        state: 'pending'
       });
 
       // Add the todo to the beginning of the todo list
