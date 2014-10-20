@@ -69,8 +69,8 @@ function (can, template, state, UserModel) {
         self.attr('user').attr(userAttrs);
 
         // Go to app
-        can.route.removeAttr('returnUrl');
-        can.route.attr({
+        state.removeAttr('returnUrl');
+        state.attr({
           controller: 'log',
           action: 'index'
         });
@@ -126,7 +126,7 @@ function (can, template, state, UserModel) {
             self.attr('user').attr('_id', response._id);
 
             // Send the user off to do some work.
-            can.route.attr({
+            state.attr({
               controller: 'log',
               action: 'index'
             });

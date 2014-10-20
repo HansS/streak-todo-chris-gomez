@@ -47,7 +47,23 @@ function (can, UserModel, TodoModel) {
       },
       controller: {
         serialize: true,
-        type: 'string'
+        type: 'string',
+        set: function (newValue) {
+
+          // Redirect to the app if authenticated
+          if (newValue === 'landing' && this.attr('authenticated')) {
+            this.attr('action', 'index');
+            return 'log';
+          }
+
+          // Redirect to login if not authenticated
+          if (newValue === 'log' && ! this.attr('authenticated')) {
+            this.attr('action', 'login');
+            return 'auth';
+          }
+
+          return newValue;
+        }
       },
       returnUrl: {
         serialize: true,
