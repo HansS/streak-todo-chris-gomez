@@ -8,6 +8,9 @@ function (can, template) {
   var ViewModel = can.Map.extend({
     define: {
 
+    },
+    showEditMenu: function () {
+      this.attr('showEditMenu', true);
     }
   });
 

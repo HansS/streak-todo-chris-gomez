@@ -3,14 +3,12 @@ steal(
   './todos.stache!',
 
   './todos.less!',
+  'src/component/todo',
   'can/map/define',
 function (can, template) {
 
   var ViewModel = can.Map.extend({
     define: {
-    },
-    showEditMenu: function () {
-      this.attr('showEditMenu', true);
     }
   });
 
