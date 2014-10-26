@@ -2,16 +2,22 @@
   <div class="row">
     <div class="col-xs-12">
 
-      <todos-progress-bar todos="{todos}"></todos-progress-bar>
+      <!--<todos-progress-bar todos="{todos}"></todos-progress-bar>-->
 
       <h6>Active</h6>
 
       <div class="list-group">
         {{#each todos}}
-          <a href="javascript://" class="list-group-item {{#if isCompleted}}disabled{{/if}}">
-            {{title}}
-            <span class="glyphicon glyphicon-ok"></span>
-          </a>
+          <div class="list-group-item {{#if isCompleted}}disabled{{/if}}">
+            <a href="javascript://" can-click="toggleState">
+              {{title}}
+            </a>
+            <div class="pull-right">
+              <a href="javascript://" can-click="showEditMenu">
+                <span class="glyphicon glyphicon-cog"></span>
+              </a>
+            </div>
+          </div>
         {{/each}}
       </div>
 

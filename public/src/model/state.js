@@ -109,6 +109,11 @@ function (can, UserModel, TodoModel) {
       todos: {
         serialize: false,
         value: new TodoModel.List()
+      },
+      showModal: {
+        serialize: false,
+        type: 'boolean',
+        value: false
       }
     },
     alert: function (type, heading, message) {

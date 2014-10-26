@@ -5,8 +5,9 @@ steal(
   'src/model/user.js',
 
   './layout.less!',
-  'src/component/header',
   'src/component/alerts',
+  'src/component/header',
+  'src/component/modal',
   'can/map/define',
 function (can, template, viewModel, UserModel) {
 

@@ -10,8 +10,8 @@ steal(
 function (can, state, Router) {
   $(function () {
 
-    var layoutView = can.stache('<app-layout></app-layout>');
-    $('#stache').html(layoutView);
+    var layoutRenderer = can.stache('<app-layout></app-layout>');
+    $('body').append(layoutRenderer(state));
 
     new Router(state, $('main'));
   });

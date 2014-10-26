@@ -1,2 +1,2 @@
 <app-form todos="{todos}"></app-form>
-<app-todos todos="{todos}"></app-todos>
+<app-todos todos="{todos}" show-edit-menu="{showModal}"></app-todos>

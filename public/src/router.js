@@ -38,7 +38,7 @@ function (can, state) {
     var controllers = {
       landing: '<landing-controller></landing-controller>',
       auth: '<auth-controller user="{user}" action="{action}"></auth-controller>',
-      log: '<log-controller></log-controller>'
+      log: '<log-controller show-modal="{showModal}"></log-controller>'
     };
 
     // Use our state object for route attrs
