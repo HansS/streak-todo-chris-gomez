@@ -1,5 +1,5 @@
 <a href="javascript://" can-click="toggleState">
-  {{title}}
+  {{todo.title}}
 </a>
 <div class="pull-right">
   <a href="javascript://" can-click="showEditMenu">

@@ -7,10 +7,12 @@ function (can, template) {
 
   var ViewModel = can.Map.extend({
     define: {
-
     },
     showEditMenu: function () {
-      this.attr('showEditMenu', true);
+      this.attr('modal').attr({
+        show: true,
+        title: this.attr('todo').attr('title')
+      });
     }
   });
 

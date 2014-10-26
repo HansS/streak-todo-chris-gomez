@@ -110,10 +110,11 @@ function (can, UserModel, TodoModel) {
         serialize: false,
         value: new TodoModel.List()
       },
-      showModal: {
+      modal: {
         serialize: false,
-        type: 'boolean',
-        value: false
+        value: new can.Map({
+          show: false
+        })
       }
     },
     alert: function (type, heading, message) {

@@ -6,10 +6,6 @@ steal('can',
 
   var ViewModel = can.Map.extend({
     define: {
-      showModal: {
-        type: 'boolean',
-        value: false
-      }
     }
   });
 
@@ -24,15 +20,15 @@ steal('can',
         this.modalEl = this.element.find('.modal');
 
         this.modalEl.modal({
-          show: this.scope.attr('showModal')
+          show: this.scope.attr('modal').attr('show')
         });
 
         this.modalEl.on('hidden.bs.modal', function () {
-          self.scope.attr('showModal', false);
+          self.scope.attr('modal').attr('show', false);
         });
       },
 
-      '{scope} showModal': function (context, ev, value) {
+      '{scope} modal.show': function (context, ev, value) {
 
         // We only control the showing of the modal with bindings. From
         // then on Bootrap takes over and we just update our bindings when
