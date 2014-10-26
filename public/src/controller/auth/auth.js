@@ -125,6 +125,9 @@ function (can, template, state, UserModel) {
             // Make the model a real.
             self.attr('user').attr('_id', response._id);
 
+            // Log em' in
+            $.cookie('auth_user', response._id);
+
             // Send the user off to do some work.
             state.attr({
               controller: 'log',
