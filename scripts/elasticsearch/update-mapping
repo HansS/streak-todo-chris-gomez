@@ -119,6 +119,7 @@ async.series({
 
   // Bulk copy the docs from "streak" to "streak_yyyy-mm-dd--hh-mm-ss"
   copyUserDocs: makeCopyData('user'),
+  copyTodoDocs: makeCopyData('todo'),
 
   getCurrentIndexName: function (callback) {
     client.indices.getAliases({
