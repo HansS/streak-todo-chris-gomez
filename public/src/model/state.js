@@ -42,7 +42,7 @@ function (can, UserModel, TodoModel) {
         }
       },
       action: {
-        serialize: true,
+        serialize: false,
         type: 'string'
       },
       controller: {
