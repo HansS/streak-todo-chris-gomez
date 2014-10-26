@@ -1,2 +1,10 @@
 <app-form todos="{todos}"></app-form>
-<app-todos todos="{todos}" show-edit-menu="{showModal}"></app-todos>
+{{#if todos.isPending}}
+  Loading todos...
+{{/if}}
+{{#if todos.isResolved}}
+  <app-todos todos="{todos}"></app-todos>
+{{/if}}
+{{#if todos.isRejected}}
+  Error!
+{{/if}}

@@ -8,6 +8,7 @@ steal(
   'src/component/form',
   'src/component/todos',
   'can/map/define',
+  'can/list/promise',
 function (can, template, state, TodoModel) {
 
   var ViewModel = can.Map.extend({
@@ -27,7 +28,7 @@ function (can, template, state, TodoModel) {
           return;
         }
 
-        TodoModel.findAll({
+        state.attr('todos').replace(TodoModel.findAll({
           query: {
             match: {
               user_id: userId
@@ -38,9 +39,7 @@ function (can, template, state, TodoModel) {
               order: 'desc'
             }
           }
-        }).then(function (todoModels) {
-          state.attr('todos').replace(todoModels);
-        });
+        }));
       }
     }
   });
