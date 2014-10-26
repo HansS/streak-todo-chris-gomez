@@ -1,10 +1,10 @@
-<div class="modal fade {{#if showModal}}in{{/if}}" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-    aria-hidden="{{#if #showModal}}false{{else}}true{{/if}}"
-    style="display: {{#if showModal}}block{{else}}none{{/if}}">
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        </button>
         <h4 class="modal-title" id="myModalLabel">Modal title</h4>
       </div>
       <div class="modal-body">

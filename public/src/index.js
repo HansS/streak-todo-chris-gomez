@@ -6,7 +6,10 @@ steal(
 
   // Question: Why can't I move this to stealconfig like this?
   //  meta: { 'src/index': deps: [ ... ]}
-  'bower_components/bootstrap/dist/js/bootstrap.min.js',
+  // 'bower_components/bootstrap/dist/js/bootstrap.min.js',
+  'bower_components/bootstrap/js/collapse.js',
+  'bower_components/bootstrap/js/modal.js',
+  'bower_components/bootstrap/js/transition.js',
 function (can, state, Router) {
   $(function () {
 
