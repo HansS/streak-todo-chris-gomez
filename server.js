@@ -24,11 +24,12 @@ app.use(modRewrite([
   '^/signup /index.html',
   '^/login /index.html',
   '^/logout /index.html',
-  '^/log /index.html',
+  // Date range: 01-21-1987...01-21-2014
+  '^/log/\\d{2}-\\d{2}-\\d{4}.{3}\\d{2}-\\d{2}-\\d{4} /index.html',
   // Single date: 01-21-1987
   '^/log/\\d{2}-\\d{2}-\\d{4} /index.html',
-  // Date range: 01-21-1987...01-21-2014
-  '^/log/\\d{2}-\\d{2}-\\d{4}\.{3}\\d{2}-\\d{2}-\\d{4} /index.html'
+  // Default log
+  '^/log /index.html'
 ]));
 
 app.use(serveStatic('public', {

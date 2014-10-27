@@ -8,7 +8,8 @@ function (can, state) {
 
     var routes = {
       '': {
-        controller: 'landing'
+        controller: 'landing',
+        action: 'index'
       },
       '/login': {
         controller: 'auth',
@@ -23,7 +24,8 @@ function (can, state) {
         action: 'logout'
       },
       '/log': {
-        controller: 'log'
+        controller: 'log',
+        action: 'index'
       },
       '/log/:dateSlug': {
         controller: 'log',

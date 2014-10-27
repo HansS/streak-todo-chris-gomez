@@ -43,20 +43,27 @@ function (can, UserModel, TodoModel) {
       },
       action: {
         serialize: false,
-        type: 'string'
+        type: 'string',
+        set: function (value) {
+          if (value === 'index' && this.attr('controller') === 'log') {
+            this.attr('date', moment());
+          }
+
+          return value;
+        }
       },
       controller: {
         serialize: true,
         type: 'string',
         set: function (newValue) {
 
-          // Redirect to the app if authenticated
+          // landing => log if authenticated
           if (newValue === 'landing' && this.attr('authenticated')) {
             this.attr('action', 'index');
             return 'log';
           }
 
-          // Redirect to login if not authenticated
+          // log => login if not authenticated
           if (newValue === 'log' && ! this.attr('authenticated')) {
             this.attr('action', 'login');
             return 'auth';
@@ -128,7 +135,15 @@ function (can, UserModel, TodoModel) {
         serialize: false,
         value: function () {
           return moment();
+        },
+        set: function (value) {
+          this.attr('dateSlug', value.format('MM-DD-YYYY'));
+          return value;
         }
+      },
+      dateSlug: {
+        serialize: true,
+        type: 'string'
       }
     },
     alert: function (type, heading, message) {
