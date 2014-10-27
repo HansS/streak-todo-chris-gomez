@@ -22,6 +22,11 @@ function (can, template, state, TodoModel) {
       // Get the todo title
       var title = input.val();
 
+      // Title required
+      if (! title) {
+        return;
+      }
+
       // Create a todo model
       var todoModel = new TodoModel({
         user_id: state.attr('user').attr('_id'),
