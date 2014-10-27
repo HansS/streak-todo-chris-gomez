@@ -10,12 +10,17 @@ steal('can',
 
     },
     goBackOneDay: function () {
-      var d = this.attr('date').clone();
-      this.attr('date', d.subtract(1, 'days'));
+      var newSlug = this.attr('date')
+        .subtract(1, 'days')
+        .format(this.attr('dateSlugFormat'));
+      console.log(newSlug)
+      this.attr('dateSlug', newSlug);
     },
     goForwardOneDay: function () {
-      var d = this.attr('date').clone();
-      this.attr('date', d.add(1, 'days'));
+      var newSlug = this.attr('date')
+        .add(1, 'days')
+        .format(this.attr('dateSlugFormat'));
+      this.attr('dateSlug', newSlug);
     }
   });
 

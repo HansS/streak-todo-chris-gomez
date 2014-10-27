@@ -132,18 +132,33 @@ function (can, UserModel, TodoModel) {
         })
       },
       date: {
-        serialize: false,
-        value: function () {
-          return moment();
-        },
-        set: function (value) {
-          this.attr('dateSlug', value.format('MM-DD-YYYY'));
-          return value;
-        }
+        serialize: false
       },
       dateSlug: {
         serialize: true,
-        type: 'string'
+        type: 'string',
+        set: function (slug) {
+          var m;
+
+          if (slug !== '') {
+            m = moment(slug, this.attr('dateSlugFormat'));
+          } else {
+            m = moment(new Date());
+          }
+
+          // Regardless of input, we'll have a slug here
+          slug = m.format(this.attr('dateSlugFormat'));
+
+          // Update the date
+          this.attr('date', m);
+
+          return slug;
+        }
+      },
+      dateSlugFormat: {
+        serialize: false,
+        type: 'string',
+        value: 'MM-DD-YYYY'
       }
     },
     alert: function (type, heading, message) {

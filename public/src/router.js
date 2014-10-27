@@ -25,7 +25,8 @@ function (can, state) {
       },
       '/log': {
         controller: 'log',
-        action: 'index'
+        action: 'index',
+        dateSlug: ''
       },
       '/log/:dateSlug': {
         controller: 'log',
@@ -52,6 +53,11 @@ function (can, state) {
     });
 
     state.bind('controller', function (ev, newController, oldController) {
+
+      if (typeof newController === 'undefined') {
+        return;
+      }
+
       var controllerName = newController;
       var script = 'src/controller/' + controllerName + '/' + controllerName;
       var template = controllers[controllerName];
