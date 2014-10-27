@@ -1,10 +1,7 @@
 <app-form todos="{todos}"></app-form>
+
 {{#if todos.isPending}}
   Loading todos...
 {{/if}}
-{{#if todos.isResolved}}
-  <app-todos todos="{todos}"></app-todos>
-{{/if}}
-{{#if todos.isRejected}}
-  Error!
-{{/if}}
+
+<app-todos todos="{todos}"></app-todos>

@@ -1,7 +1,7 @@
-<a href="javascript://" can-click="toggleState">
+<a class="title" href="javascript://" can-click="toggleState">
   {{todo.title}}
 </a>
-<div class="pull-right">
+<div class="actions">
   <a href="javascript://" can-click="showEditMenu">
     <span class="glyphicon glyphicon-cog"></span>
   </a>

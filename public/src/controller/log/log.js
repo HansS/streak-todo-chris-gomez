@@ -28,7 +28,7 @@ function (can, template, state, TodoModel) {
           return;
         }
 
-        state.attr('todos').replace(TodoModel.findAll({
+        var todoList = TodoModel.findAll({
           query: {
             match: {
               user_id: userId
@@ -39,7 +39,15 @@ function (can, template, state, TodoModel) {
               order: 'desc'
             }
           }
-        }));
+        });
+
+        todoList.fail(function () {
+          state.alert('danger', 'Blast',
+            'There was an error getting your todos. Cross your fingers ' +
+            'and try again.');
+        })
+
+        state.attr('todos').replace(todoList);
       }
     }
   });

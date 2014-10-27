@@ -11,7 +11,12 @@ function (can, template) {
     showEditMenu: function () {
       this.attr('modal').attr({
         show: true,
-        title: this.attr('todo').attr('title')
+        title: this.attr('todo').attr('title'),
+        content: {
+          script: 'src/component/todo/settings/',
+          template: '<todo-settings></todo-settings>',
+          scope: this.attr('todo')
+        }
       });
     }
   });

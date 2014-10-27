@@ -1,0 +1,59 @@
+<div class="schedule panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Schedule</div>
+  <div class="panel-body">
+    <p>Use crontab syntax to configure when this todo is shown.</p>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-xs-8">
+          Day of week:
+        </div>
+        <div class="col-xs-4">
+          <input class="input-sm form-control" type="text" value="*" />
+        </div>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-xs-8">
+          Week of month:
+        </div>
+        <div class="col-xs-4">
+          <input class="input-sm form-control" type="text" value="*" />
+        </div>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-xs-8">
+          Day of month:
+        </div>
+        <div class="col-xs-4">
+          <input class="input-sm form-control" type="text" value="*" />
+        </div>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-xs-8">
+          Month:
+        </div>
+        <div class="col-xs-4">
+          <input class="input-sm form-control" type="text" value="*" />
+        </div>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-xs-8">
+          Year:
+        </div>
+        <div class="col-xs-4">
+          <input class="input-sm form-control" type="text" value="*" />
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

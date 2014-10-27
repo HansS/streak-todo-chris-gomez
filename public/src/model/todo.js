@@ -9,7 +9,9 @@ function (can, _, ElasticsearchModel) {
 
     // Static methods
 
-    type: 'todo'
+    type: 'todo',
+
+    shortName: 'TodoModel'
 
   }, {
 
