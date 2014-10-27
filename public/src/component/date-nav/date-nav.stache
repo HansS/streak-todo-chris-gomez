@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row">
+    <div class="prev-col col-xs-2">
+      <button class="btn btn-default btn-xs" can-click="goBackOneDay">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+      </button>
+    </div>
+    <div class="current-col col-xs-8">
+      {{formatDate date}}
+    </div>
+    <div class="next-col col-xs-2">
+      <button class="btn btn-default btn-xs" can-click="goForwardOneDay">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+      </button>
+    </div>
+  </div>
+</div>

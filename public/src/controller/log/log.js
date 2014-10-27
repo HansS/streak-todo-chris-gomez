@@ -5,6 +5,7 @@ steal(
   'src/model/todo.js',
   './log.less!',
 
+  'src/component/date-nav',
   'src/component/form',
   'src/component/todos',
   'can/map/define',
@@ -51,11 +52,11 @@ function (can, template, state, TodoModel) {
         state.attr('todos').replace(todoList);
 
         // DEV: Open the first todo's settings
-        todoList.then(function (todos) {
-          var todoItem = self.element.find('app-todo').first();
-          var scope = todoItem.scope();
-          scope.showSettingsMenu();
-        })
+        // todoList.then(function (todos) {
+        //   var todoItem = self.element.find('app-todo').first();
+        //   var scope = todoItem.scope();
+        //   scope.showSettingsMenu();
+        // });
       }
     }
   });

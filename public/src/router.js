@@ -25,7 +25,7 @@ function (can, state) {
       '/log': {
         controller: 'log'
       },
-      '/log/:date': {
+      '/log/:dateSlug': {
         controller: 'log',
         action: 'date',
       },

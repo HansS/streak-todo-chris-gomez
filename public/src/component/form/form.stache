@@ -8,7 +8,9 @@
           <div class="input-group">
             <input name="title" type="text" class="form-control" autocomplete="off">
             <div class="input-group-btn">
-              <button type="submit" class="btn btn-default">Add</button>
+              <button type="submit" class="btn btn-default">
+                <span class="glyphicon glyphicon-plus"></span>
+              </button>
             </div>
           </div>
 

@@ -123,6 +123,12 @@ function (can, UserModel, TodoModel) {
             scope: new can.Map({})
           })
         })
+      },
+      date: {
+        serialize: false,
+        value: function () {
+          return moment();
+        }
       }
     },
     alert: function (type, heading, message) {
