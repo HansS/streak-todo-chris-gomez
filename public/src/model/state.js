@@ -113,14 +113,13 @@ function (can, UserModel, TodoModel) {
       modal: {
         serialize: false,
         value: new can.Map({
-          // show: false,
-          show: true,
-          title: 'Test modal',
+          show: false,
+          title: 'Settings',
+          confirmed: false,
+          cancelled: false,
           content: new can.Map({
-            // script: '',
-            // template: '',
-            script: 'src/component/todo/settings/',
-            template: '<todo-settings></todo-settings>',
+            script: '',
+            template: '',
             scope: new can.Map({})
           })
         })

@@ -13,7 +13,7 @@ steal.config({
     "jquery": "bower_components/jquery/dist/jquery.js",
     "jquery-cookie/jquery-cookie": "bower_components/jquery-cookie/jquery.cookie.js",
     "lodash/*": "bower_components/lodash-amd/modern/*.js",
-    "moment": "bower_components/momentjs/moment.js",
+    "moment": "bower_components/moment/moment.js",
     "fastclick": "bower_components/fastclick/lib/fastclick.js"
   },
   meta: {

@@ -30,6 +30,7 @@ function (can, es) {
     },
 
     create: function (attrs) {
+
       var self = this;
       var dfd = new can.Deferred();
       var config = {
@@ -46,6 +47,32 @@ function (can, es) {
 
         dfd.resolve(response);
       });
+
+      return dfd;
+    },
+
+    update: function (id, attrs) {
+      var dfd = new can.Deferred();
+
+      delete attrs._id;
+
+      var config = {
+        index: 'streak',
+        type: this.type,
+        id: id,
+        body: {
+          doc: attrs
+        }
+      };
+
+      esClient.update(config, function (err, response) {
+        if (err) {
+          dfd.reject(err);
+          return;
+        }
+
+        dfd.resolve({});
+      })
 
       return dfd;
     },

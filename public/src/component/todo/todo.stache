@@ -2,7 +2,7 @@
   {{todo.title}}
 </a>
 <div class="actions">
-  <a href="javascript://" can-click="showEditMenu">
+  <a href="javascript://" can-click="showSettingsMenu">
     <span class="glyphicon glyphicon-cog"></span>
   </a>
 </div>

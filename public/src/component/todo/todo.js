@@ -1,24 +1,42 @@
 steal(
   'can',
   './todo.stache!',
+  'lodash',
+
   './todo.less!',
   'can/map/define',
-function (can, template) {
+function (can, template, _) {
 
   var ViewModel = can.Map.extend({
     define: {
     },
-    showEditMenu: function () {
-      this.attr('modal').attr({
+    showSettingsMenu: function () {
+      var self = this;
+      var modal = this.attr('modal');
+
+      modal.attr({
         show: true,
-        title: this.attr('todo').attr('title'),
         content: {
           script: 'src/component/todo/settings/',
           template: '<todo-settings></todo-settings>',
           scope: this.attr('todo')
         }
       });
-    }
+
+      var onSettingsComplete = _.once(function () {
+        var isSaved = modal.attr('confirmed');
+        console.log('Saved?', isSaved);
+
+        if (isSaved) {
+          self.attr('todo').save();
+        }
+
+        modal.unbind('show', onSettingsComplete);
+      });
+
+      modal.bind('show', onSettingsComplete);
+    },
+
   });
 
   return can.Component.extend({

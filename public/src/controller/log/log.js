@@ -22,6 +22,7 @@ function (can, template, state, TodoModel) {
     scope: ViewModel,
     events: {
       inserted: function () {
+        var self = this;
         var userId = state.attr('user').attr('_id');
 
         if (! userId) {
@@ -45,9 +46,16 @@ function (can, template, state, TodoModel) {
           state.alert('danger', 'Blast',
             'There was an error getting your todos. Cross your fingers ' +
             'and try again.');
-        })
+        });
 
         state.attr('todos').replace(todoList);
+
+        // DEV: Open the first todo's settings
+        todoList.then(function (todos) {
+          var todoItem = self.element.find('app-todo').first();
+          var scope = todoItem.scope();
+          scope.showSettingsMenu();
+        })
       }
     }
   });

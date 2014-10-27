@@ -1,8 +1,16 @@
-<div class="schedule panel panel-default">
-  <!-- Default panel contents -->
+<div class="title-panel panel panel-default">
+  <div class="panel-heading">Title</div>
+  <div class="panel-body">
+    <input class="form-control" type="text" can-value="{title}" />
+  </div>
+</div>
+
+<div class="schedule-panel panel panel-default">
   <div class="panel-heading">Schedule</div>
   <div class="panel-body">
-    <p>Use crontab syntax to configure when this todo is shown.</p>
+    <p>
+      Use crontab syntax to configure when this todo is shown.
+    </p>
   </div>
   <ul class="list-group">
     <li class="list-group-item">
@@ -11,7 +19,7 @@
           Day of week:
         </div>
         <div class="col-xs-4">
-          <input class="input-sm form-control" type="text" value="*" />
+          <input class="input-sm form-control" type="text" can-value="{schedule.day_of_week}" />
         </div>
       </div>
     </li>
@@ -21,7 +29,7 @@
           Week of month:
         </div>
         <div class="col-xs-4">
-          <input class="input-sm form-control" type="text" value="*" />
+          <input class="input-sm form-control" type="text" can-value="{schedule.week_of_month}" />
         </div>
       </div>
     </li>
@@ -31,7 +39,7 @@
           Day of month:
         </div>
         <div class="col-xs-4">
-          <input class="input-sm form-control" type="text" value="*" />
+          <input class="input-sm form-control" type="text" can-value="{schedule.day_of_month}" />
         </div>
       </div>
     </li>
@@ -41,7 +49,7 @@
           Month:
         </div>
         <div class="col-xs-4">
-          <input class="input-sm form-control" type="text" value="*" />
+          <input class="input-sm form-control" type="text" can-value="{schedule.month}" />
         </div>
       </div>
     </li>
@@ -51,7 +59,7 @@
           Year:
         </div>
         <div class="col-xs-4">
-          <input class="input-sm form-control" type="text" value="*" />
+          <input class="input-sm form-control" type="text" can-value="{schedule.year}" />
         </div>
       </div>
     </li>
