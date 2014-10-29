@@ -18,17 +18,18 @@ function (can, template, _) {
         show: true,
         content: {
           script: 'src/component/todo/settings/',
-          template: '<todo-settings></todo-settings>',
+          template: '<todo-settings todo="{.}"></todo-settings>',
           scope: this.attr('todo')
         }
       });
 
       var onSettingsComplete = _.once(function () {
         var isSaved = modal.attr('confirmed');
-        console.log('Saved?', isSaved);
 
         if (isSaved) {
           self.attr('todo').save();
+        } else {
+          // TODO: Get a copy from the server
         }
 
         modal.unbind('show', onSettingsComplete);

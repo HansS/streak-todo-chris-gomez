@@ -117,9 +117,23 @@ function (can, es) {
           return;
         }
 
-        var models = response.hits.hits;
+        var results = response.hits.hits;
+
+        /*
+        // This should go in parseModels
+        var models = [];
+
+        for (var i in results) {
+          var result = results[i];
+          var model = result._source;
+          model._id = result._id;
+          models.push(model);
+        }
 
         dfd.resolve(models);
+        */
+
+        dfd.resolve(results);
       });
 
       return dfd;

@@ -123,7 +123,6 @@ function (can, UserModel, TodoModel) {
           show: false,
           title: 'Settings',
           confirmed: false,
-          cancelled: false,
           content: new can.Map({
             script: '',
             template: '',

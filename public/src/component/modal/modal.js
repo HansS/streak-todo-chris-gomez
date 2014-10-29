@@ -1,8 +1,9 @@
 steal('can',
+  'lodash',
   './modal.stache!',
   './modal.less!',
   'can/map/define',
-  function (can, template) {
+  function (can, _, template) {
 
   var ViewModel = can.Map.extend({
     define: {
@@ -15,11 +16,6 @@ steal('can',
         confirmed: true,
         show: false
       });
-    },
-    reset: function () {
-      this.attr('modal').attr({
-        confirmed: false
-      })
     }
   });
 
@@ -29,7 +25,16 @@ steal('can',
     scope: ViewModel,
     events: {
       '{scope} modal.show': 'respondToShowToggle',
-      '{scope} modal.content.script': 'renderContent',
+
+      init: function () {
+        // These properties are usually set together. Make sure we don't
+        // rerender back-to-back when this occurs.
+        this.debouncedRenderContent =
+          _.debounce(can.proxy(this.renderContent, this), 100);
+        this.on(this.scope, 'modal.content.script', 'debouncedRenderContent');
+        this.on(this.scope, 'modal.content.template', 'debouncedRenderContent');
+        this.on(this.scope, 'modal.content.scope', 'debouncedRenderContent');
+      },
 
       inserted: function () {
         var self = this;
@@ -56,7 +61,9 @@ steal('can',
         this.modalEl.modal(value ? 'show' : 'hide');
 
         if (value) {
-          this.scope.reset();
+          modal.attr({
+            confirmed: false
+          });
         }
       },
 

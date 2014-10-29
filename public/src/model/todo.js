@@ -1,64 +1,43 @@
 steal(
   'can',
-  'lodash',
   'src/model/elasticsearch.js',
+  'src/model/schedule.js',
   'moment',
+  'later',
+  'lodash',
 
   'can/map/define',
-function (can, _, ElasticsearchModel, moment) {
-  var Todo = ElasticsearchModel.extend({
+function (can, ElasticsearchModel, ScheduleModel, moment, later, _) {
 
-    // Static methods
-
+  var TodoModel = ElasticsearchModel.extend({
     type: 'todo',
+    shortName: 'TodoModel',
 
-    shortName: 'TodoModel'
+    // findAll: function () {
+    //   var results = ElasticsearchModel.findAll.apply(this, arguments);
+    //   results.then(function (todos) {
+    //     console.log(todos)
+    //   })
+    //   return results;
+    // }
 
   }, {
-
-    // Instance methods
-
     define: {
+      title: {
+        serialize: true,
+        type: 'string'
+      },
       schedule: {
         serialize: true,
+        Type: ScheduleModel,
+        Value: ScheduleModel,
         value: function () {
-          var m = moment();
-          return new Schedule({
-            day_of_week: m.day(),
-            week_of_month: Math.ceil(m.date() / 7),
-            day_of_month: m.date(),
-            month: m.month(),
-            year: m.year()
-          });
+          return new ScheduleModel();
         }
       }
     }
 
   });
 
-  Todo.List = Todo.List.extend({
-
-  });
-
-  var Schedule = can.Map.extend({
-    define: {
-      day_of_week: {
-        type: 'string'
-      },
-      week_of_month: {
-        type: 'string'
-      },
-      day_of_month: {
-        type: 'string'
-      },
-      month: {
-        type: 'string'
-      },
-      year: {
-        type: 'string'
-      }
-    }
-  });
-
-  return Todo;
+  return TodoModel;
 });
