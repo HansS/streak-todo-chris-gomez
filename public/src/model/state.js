@@ -79,7 +79,19 @@ function (can, UserModel, TodoModel) {
               }
 
             }, function (err) {
+
+              // Log message
               console.log(err.stack);
+
+              // Notify user
+              self.alert('danger', 'Oh no',
+                'We can\'t find your your user info. Try logging in again.');
+
+              // Redirect
+              self.attr({
+                controller: 'auth',
+                action: 'login'
+              })
             });
           }
 
