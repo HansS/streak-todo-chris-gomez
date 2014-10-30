@@ -62,23 +62,27 @@ function (can, template, state, TodoModel) {
           }
         });
 
-        // Filter out all todos that aren't relevant for this date
-        // var todosForDate = allTodos.then(
-        //   TodoModel.makeFilterByPending(date));
-        var todosForDate = allTodos;
 
         // Handle a failed findAll
-        todosForDate.fail(function () {
+        allTodos.fail(function () {
           state.alert('danger', 'Blast',
             'There was an error getting your todos. Cross your fingers ' +
             'and try again.');
         });
 
-        // Use todosForDate in the app
-        state.attr('todos').replace(todosForDate);
+        var stateAwareTodos = allTodos.then(function (todos) {
+          todos.each(function (todo) {
+            todo.attr('relativeDate', state.attr('date'));
+          });
+
+          return todos;
+        });
+
+        // Use allTodos in the app
+        state.attr('todos').replace(stateAwareTodos);
 
         // Return the deferred in case it's useful elsewhere
-        return todosForDate;
+        return stateAwareTodos;
       }
     },
   });

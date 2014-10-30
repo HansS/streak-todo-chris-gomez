@@ -90,7 +90,8 @@ function (can, _, later, moment) {
         // Value: can.List,
         get: function () {
           var parsedPeriods = this.attr('parsedPeriods');
-          var occurances = later.schedule(parsedPeriods).next(5);
+          var occurances = later.schedule(parsedPeriods)
+            .next(5, this.attr('relativeDate'));
           var dates = [];
 
           _.each(occurances, function (occurance) {

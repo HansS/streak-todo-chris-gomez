@@ -48,6 +48,10 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
         serialize: false,
         value: function () {
           return moment();
+        },
+        set: function (value) {
+          this.attr('schedule').attr('relativeDate', value);
+          return value;
         }
       },
       /**
