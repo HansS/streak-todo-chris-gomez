@@ -18,7 +18,6 @@ function (can, _, later, moment) {
       dayOfMonth: {
         serialize: true,
         type: 'string',
-        // set: function (value) { console.log(value); return value; },
         value: function () {
           return later.day.val(new Date());
         }
@@ -26,7 +25,6 @@ function (can, _, later, moment) {
       month: {
         serialize: true,
         type: 'string',
-        // set: function (value) { console.log(value); return value; },
         value: function () {
           return later.month.val(new Date());
         }
@@ -34,7 +32,6 @@ function (can, _, later, moment) {
       dayOfWeek: {
         serialize: true,
         type: 'string',
-        // set: function (value) { console.log(value); return value; },
         value: function () {
           // Later.js reports the days of the week from Sun:1, to Sat:0/7.
           // Cron expects Sun:0/7, to Saturday 6.

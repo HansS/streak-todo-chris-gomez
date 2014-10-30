@@ -22,27 +22,8 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
     //   return results;
     // }
 
-
-    makeFilterByPending: function (date) {
-      return function (todos) {
-        todos = todos.filter(function (todo, index) {
-
-          // Today's date
-          var today = new Date();
-
-          // Get the stored Later schedule from the todo
-          var laterSchedule = todo.attr('schedule.parsedPeriods');
-
-          // Load the todo's schedule into Later
-          var schedule = later.schedule(laterSchedule);
-
-          return true;
-        });
-        return todos;
-      }
-    }
-
   }, {
+
     define: {
       title: {
         serialize: true,

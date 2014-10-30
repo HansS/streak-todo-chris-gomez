@@ -2,34 +2,11 @@ steal(
   'can',
   './user.js',
   './todo.js',
+  'src/utils/constants.js',
+
   'can/map/define',
   'jquery-cookie',
-function (can, UserModel, TodoModel) {
-
-  var syncValuesBlacklist = [
-    'auth',
-    'login',
-    'signup',
-    'logout'
-  ];
-
-  var requireAuth = [
-    'log'
-  ];
-
-  var syncValue = function (propertyToSync) {
-    return function (newValue) {
-      // If this value is not in the blacklist...
-      // And, its value doesn't already match,
-      // synchronize it.
-      if (syncValuesBlacklist.indexOf(newValue) === -1 &&
-          this.attr(propertyToSync) !== newValue) {
-        this.attr(propertyToSync, newValue);
-      }
-
-      return newValue;
-    };
-  };
+function (can, UserModel, TodoModel, constants) {
 
   var State = can.Map.extend({
     define: {
@@ -135,10 +112,10 @@ function (can, UserModel, TodoModel) {
         set: function (slug) {
           var m;
           var currentDateSlug =
-            moment(new Date()).format(this.attr('dateSlugFormat'));
+            moment(new Date()).format(constants.dateSlugFormat);
 
           if (slug !== '') {
-            m = moment(slug, this.attr('dateSlugFormat'));
+            m = moment(slug, constants.dateSlugFormat);
           } else {
             m = moment(new Date());
           }
@@ -147,7 +124,7 @@ function (can, UserModel, TodoModel) {
           this.attr('date', m);
 
           // Regardless of input, we'll have a slug here
-          slug = m.format(this.attr('dateSlugFormat'));
+          slug = m.format(constants.dateSlugFormat);
 
           if (slug === currentDateSlug) {
             return '';
@@ -155,11 +132,6 @@ function (can, UserModel, TodoModel) {
 
           return slug;
         }
-      },
-      dateSlugFormat: {
-        serialize: false,
-        type: 'string',
-        value: 'MM-DD-YYYY'
       }
     },
     alert: function (type, heading, message) {

@@ -1,9 +1,10 @@
 steal('can',
   './date-nav.stache!',
+  'src/utils/constants.js',
 
   './date-nav.less!',
   'can/map/define',
-  function (can, template) {
+  function (can, template, constants) {
 
   var ViewModel = can.Map.extend({
     define: {
@@ -12,13 +13,13 @@ steal('can',
     goBackOneDay: function () {
       var newSlug = this.attr('date')
         .subtract(1, 'days')
-        .format(this.attr('dateSlugFormat'));
+        .format(constants.dateSlugFormat);
       this.attr('dateSlug', newSlug);
     },
     goForwardOneDay: function () {
       var newSlug = this.attr('date')
         .add(1, 'days')
-        .format(this.attr('dateSlugFormat'));
+        .format(constants.dateSlugFormat);
       this.attr('dateSlug', newSlug);
     }
   });
