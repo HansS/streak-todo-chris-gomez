@@ -22,15 +22,34 @@ function (can, template, state, TodoModel) {
     template: template,
     scope: ViewModel,
     events: {
+      '{scope} date': 'updateTodoList',
+
       inserted: function () {
         var self = this;
-        var userId = state.attr('user').attr('_id');
 
+        // Get things rolling.
+        var todoList = this.updateTodoList();
+
+        // DEV: Open the first todo's settings
+        /*todoList.then(function (todos) {
+          var todoItem = self.element.find('app-todo').first();
+          var scope = todoItem.scope();
+          scope.showSettingsMenu();
+        });*/
+      },
+
+      updateTodoList: function () {
+        var self = this;
+        var userId = state.attr('user').attr('_id');
+        var date = this.scope.attr('date');
+
+        // This should never happen.
         if (! userId) {
-          return;
+          throw "Cannot get a todo list without a user id.";
         }
 
-        var todoList = TodoModel.findAll({
+        // Get all the todos for this user
+        var allTodos = TodoModel.findAll({
           query: {
             match: {
               userId: userId
@@ -43,21 +62,24 @@ function (can, template, state, TodoModel) {
           }
         });
 
-        todoList.fail(function () {
+        // Filter out all todos that aren't relevant for this date
+        // var todosForDate = allTodos.then(
+        //   TodoModel.makeFilterByPending(date));
+        var todosForDate = allTodos;
+
+        // Handle a failed findAll
+        todosForDate.fail(function () {
           state.alert('danger', 'Blast',
             'There was an error getting your todos. Cross your fingers ' +
             'and try again.');
         });
 
-        state.attr('todos').replace(todoList);
+        // Use todosForDate in the app
+        state.attr('todos').replace(todosForDate);
 
-        // DEV: Open the first todo's settings
-        /*todoList.then(function (todos) {
-          var todoItem = self.element.find('app-todo').first();
-          var scope = todoItem.scope();
-          scope.showSettingsMenu();
-        });*/
+        // Return the deferred in case it's useful elsewhere
+        return todosForDate;
       }
-    }
+    },
   });
 });

@@ -9,6 +9,21 @@ function (can, _, template) {
 
   var ViewModel = can.Map.extend({
     define: {
+      isCompleted: {
+        get: function () {
+          var state = this.attr('todo').attr('state') === 'completed';
+
+          return state ?
+            true : false;
+        },
+        set: function (value) {
+          var todo = this.attr('todo');
+
+          todo.attr('state', (value ? 'completed' : 'pending'));
+
+          todo.save();
+        }
+      }
     },
     showSettingsMenu: function () {
       var self = this;
@@ -39,8 +54,7 @@ function (can, _, template) {
 
       // Listen for when the modal is closed
       modal.bind('show', onSettingsComplete);
-    },
-
+    }
   });
 
   return can.Component.extend({

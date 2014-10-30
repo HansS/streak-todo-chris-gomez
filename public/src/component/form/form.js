@@ -31,7 +31,6 @@ function (can, template, state, TodoModel) {
       var todoModel = new TodoModel({
         userId: state.attr('user').attr('_id'),
         title: title,
-        state: 'pending',
         createdAt: new Date().toISOString()
       });
 

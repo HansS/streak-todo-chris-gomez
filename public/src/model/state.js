@@ -119,6 +119,14 @@ function (can, UserModel, TodoModel) {
         serialize: false,
         value: function () {
           return moment();
+        },
+        set: function (value) {
+
+          this.attr('todos').each(function (todo) {
+            todo.attr('relativeDate', value);
+          });
+
+          return value;
         }
       },
       dateSlug: {

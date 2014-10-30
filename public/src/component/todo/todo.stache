@@ -1,4 +1,5 @@
-<a class="title" href="javascript://" can-click="toggleState">
+<input class="state-toggle" type="checkbox" can-value="isCompleted" />
+<a class="title" href="javascript://">
   {{todo.title}}
 </a>
 <div class="actions">
