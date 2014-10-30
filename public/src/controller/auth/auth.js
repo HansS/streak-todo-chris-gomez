@@ -62,7 +62,7 @@ function (can, template, state, UserModel) {
         var userAttrs = user.attr();
 
         // Log em' in!
-        $.cookie('auth_user', user._id);
+        $.cookie('authUser', user._id);
         userAttrs.loggedIn = true;
 
         // Save the user's attributes
@@ -116,7 +116,7 @@ function (can, template, state, UserModel) {
         // Make note of this moment in time.
         self.attr('user').attr({
           username: username,
-          created_at: new Date().toISOString()
+          createdAt: new Date().toISOString()
         });
 
         self.attr('user').save()
@@ -126,7 +126,7 @@ function (can, template, state, UserModel) {
             self.attr('user').attr('_id', response._id);
 
             // Log em' in
-            $.cookie('auth_user', response._id);
+            $.cookie('authUser', response._id);
 
             // Send the user off to do some work.
             state.attr({
@@ -163,7 +163,7 @@ function (can, template, state, UserModel) {
         }
       },
       logout: function () {
-        $.removeCookie('auth_user');
+        $.removeCookie('authUser');
         state.attr('user').attr({}, true);
         state.attr('action', 'login')
       },

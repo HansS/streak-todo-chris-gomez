@@ -38,7 +38,7 @@ function (can, UserModel, TodoModel) {
         type: 'boolean',
         value: false,
         get: function () {
-          return (!!($.cookie('auth_user')) || this.attr('user').attr('_id'));
+          return (!!($.cookie('authUser')) || this.attr('user').attr('_id'));
         }
       },
       action: {
@@ -85,7 +85,7 @@ function (can, UserModel, TodoModel) {
         value: function () {
           var self = this;
           var userModel = new UserModel();
-          var authUserId = $.cookie('auth_user');
+          var authUserId = $.cookie('authUser');
 
           userModel.attr({
             _id: authUserId

@@ -33,11 +33,11 @@ function (can, template, state, TodoModel) {
         var todoList = TodoModel.findAll({
           query: {
             match: {
-              user_id: userId
+              userId: userId
             }
           },
           sort: {
-            created_at: {
+            createdAt: {
               order: 'desc'
             }
           }
