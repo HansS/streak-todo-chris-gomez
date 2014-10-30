@@ -8,6 +8,8 @@ function (can, es) {
     host: document.location.protocol + '//' + document.location.host + '/api'
   });
 
+  var backupStore = {};
+
   return can.Model.extend({
 
     // Static
@@ -152,17 +154,25 @@ function (can, es) {
     },
 
     backup: function () {
-      this.attr('backupStore').push(this.attr());
+      var backups = backupStore[this.attr('_id')];
+
+      if (! backups) {
+        backups = backupStore[this.attr('_id')] = [];
+      }
+
+      backups.push(this.attr())
     },
 
     revert: function () {
-      var lastBackup = this.attr('backupStore').slice(-1).attr(0);
+      var backups = backupStore[this.attr('_id')];
 
-      if (! lastBackup) {
+      if (! backups || ! can.isArray(backups)) {
         return;
       }
 
-      this.attr(lastBackup.attr(), true);
+      var lastBackup = backups.slice(-1)[0];
+
+      this.attr(lastBackup, true);
     }
 
   });
