@@ -69,8 +69,8 @@ function (can, template, state, UserModel) {
         self.attr('user').attr(userAttrs);
 
         // Go to app
-        state.removeAttr('returnUrl');
-        state.attr({
+        can.route.removeAttr('returnUrl');
+        can.route.attr({
           controller: 'log',
           action: 'index'
         });
@@ -129,7 +129,7 @@ function (can, template, state, UserModel) {
             $.cookie('authUser', response._id);
 
             // Send the user off to do some work.
-            state.attr({
+            can.route.attr({
               controller: 'log',
               action: 'index'
             });

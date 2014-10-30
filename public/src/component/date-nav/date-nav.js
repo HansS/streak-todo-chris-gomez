@@ -13,7 +13,6 @@ steal('can',
       var newSlug = this.attr('date')
         .subtract(1, 'days')
         .format(this.attr('dateSlugFormat'));
-      console.log(newSlug)
       this.attr('dateSlug', newSlug);
     },
     goForwardOneDay: function () {
@@ -30,7 +29,6 @@ steal('can',
     scope: ViewModel,
     events: {
       inserted: function () {
-
       }
     },
     helpers: {

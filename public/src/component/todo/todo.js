@@ -29,7 +29,7 @@ function (can, _, template) {
         if (isSaved) {
           self.attr('todo').save();
         } else {
-          self.attr('todo').revert();
+          // self.attr('todo').revert();
         }
 
         modal.unbind('show', onSettingsComplete);

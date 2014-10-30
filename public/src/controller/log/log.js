@@ -52,11 +52,11 @@ function (can, template, state, TodoModel) {
         state.attr('todos').replace(todoList);
 
         // DEV: Open the first todo's settings
-        todoList.then(function (todos) {
+        /*todoList.then(function (todos) {
           var todoItem = self.element.find('app-todo').first();
           var scope = todoItem.scope();
           scope.showSettingsMenu();
-        });
+        });*/
       }
     }
   });

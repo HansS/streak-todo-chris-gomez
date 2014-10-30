@@ -42,45 +42,10 @@ function (can, UserModel, TodoModel) {
         }
       },
       action: {
-        serialize: false,
-        type: 'string',
-        set: function (value) {
-
-          var preAuthWhitelist = {
-            'index': 1,
-            'signup': 1,
-            'login': 1
-          }
-
-          // TODO: Rewrite the as preDispatch (again)
-          if (! this.attr('authenticated') && ! preAuthWhitelist[value]) {
-            value = 'login'
-          }
-
-          return value;
-        }
+        serialize: true,
+        type: 'string'
       },
       controller: {
-        serialize: false,
-        type: 'string',
-        set: function (value) {
-
-          // TODO: Rewrite the as preDispatch (again)
-          // landing => log if authenticated
-          if (value === 'landing' && this.attr('authenticated')) {
-            return 'log';
-          }
-
-          // TODO: Rewrite the as preDispatch (again)
-          // log => login if not authenticated
-          if (value === 'log' && ! this.attr('authenticated')) {
-            return 'auth';
-          }
-
-          return value;
-        }
-      },
-      returnUrl: {
         serialize: true,
         type: 'string'
       },
@@ -149,6 +114,8 @@ function (can, UserModel, TodoModel) {
         type: 'string',
         set: function (slug) {
           var m;
+          var currentDateSlug =
+            moment(new Date()).format(this.attr('dateSlugFormat'));
 
           if (slug !== '') {
             m = moment(slug, this.attr('dateSlugFormat'));
@@ -156,11 +123,15 @@ function (can, UserModel, TodoModel) {
             m = moment(new Date());
           }
 
+          // Update the date
+          this.attr('date', m);
+
           // Regardless of input, we'll have a slug here
           slug = m.format(this.attr('dateSlugFormat'));
 
-          // Update the date
-          this.attr('date', m);
+          if (slug === currentDateSlug) {
+            return '';
+          }
 
           return slug;
         }
