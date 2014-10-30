@@ -1,5 +1,5 @@
 <nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
+  <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
 
@@ -17,7 +17,7 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="navbar-collapse collapse" id="navbar-collapse">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
       {{#if user.loggedIn}}
         <li>
           <a href="/logout">Logout</a>
