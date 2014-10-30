@@ -8,8 +8,7 @@ function (can, state) {
 
     var routes = {
       '': {
-        controller: 'landing',
-        action: 'index'
+        controller: 'landing'
       },
       '/login': {
         controller: 'auth',

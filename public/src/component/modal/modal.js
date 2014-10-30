@@ -7,7 +7,16 @@ steal('can',
 
   var ViewModel = can.Map.extend({
     define: {
-
+      /**
+       * There are many ways to close the modal, but only one way
+       * to commit changes that were made inside it. If pressing the
+       * "Save changes" button was the method that resulted in the modal
+       * closing, this attribute will be "true".
+       **/
+      confirmed: {
+        type: 'boolean',
+        value: false,
+      }
     },
     confirm: function (context, el, ev) {
       ev.preventDefault();

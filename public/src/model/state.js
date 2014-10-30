@@ -45,31 +45,39 @@ function (can, UserModel, TodoModel) {
         serialize: false,
         type: 'string',
         set: function (value) {
-          if (value === 'index' && this.attr('controller') === 'log') {
-            this.attr('date', moment());
+
+          var preAuthWhitelist = {
+            'index': 1,
+            'signup': 1,
+            'login': 1
+          }
+
+          // TODO: Rewrite the as preDispatch (again)
+          if (! this.attr('authenticated') && ! preAuthWhitelist[value]) {
+            value = 'login'
           }
 
           return value;
         }
       },
       controller: {
-        serialize: true,
+        serialize: false,
         type: 'string',
-        set: function (newValue) {
+        set: function (value) {
 
+          // TODO: Rewrite the as preDispatch (again)
           // landing => log if authenticated
-          if (newValue === 'landing' && this.attr('authenticated')) {
-            this.attr('action', 'index');
+          if (value === 'landing' && this.attr('authenticated')) {
             return 'log';
           }
 
+          // TODO: Rewrite the as preDispatch (again)
           // log => login if not authenticated
-          if (newValue === 'log' && ! this.attr('authenticated')) {
-            this.attr('action', 'login');
+          if (value === 'log' && ! this.attr('authenticated')) {
             return 'auth';
           }
 
-          return newValue;
+          return value;
         }
       },
       returnUrl: {
@@ -131,7 +139,10 @@ function (can, UserModel, TodoModel) {
         })
       },
       date: {
-        serialize: false
+        serialize: false,
+        value: function () {
+          return moment();
+        }
       },
       dateSlug: {
         serialize: true,

@@ -1,11 +1,11 @@
 steal(
   'can',
-  './todo.stache!',
   'lodash',
+  './todo.stache!',
 
   './todo.less!',
   'can/map/define',
-function (can, template, _) {
+function (can, _, template) {
 
   var ViewModel = can.Map.extend({
     define: {
@@ -29,12 +29,13 @@ function (can, template, _) {
         if (isSaved) {
           self.attr('todo').save();
         } else {
-          // TODO: Get a copy from the server
+          self.attr('todo').revert();
         }
 
         modal.unbind('show', onSettingsComplete);
       });
 
+      // Listen for when the modal is closed
       modal.bind('show', onSettingsComplete);
     },
 
