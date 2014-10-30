@@ -144,15 +144,6 @@ function (can, es) {
 
   }, {
 
-    // Instance
-    define: {
-      backupStore: {
-        serialize: false,
-        type: 'array',
-        value: []
-      }
-    },
-
     backup: function () {
       var backups = backupStore[this.attr('_id')];
 
