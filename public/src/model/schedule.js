@@ -40,7 +40,8 @@ function (can, _, later, moment) {
           // Cron expects Sun:0/7, to Saturday 6.
           // So if you feed Later.js' dayOfWeek directly into its cron parser,
           // it will be off by 1. To account for this, we simply subtract 1.
-          return later.dayOfWeek.val(new Date()) - 1;
+          // return later.dayOfWeek.val(new Date()) - 1;
+          return '*';
         }
       },
       year: {
