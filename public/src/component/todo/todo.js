@@ -14,6 +14,8 @@ function (can, _, template) {
       var self = this;
       var modal = this.attr('modal');
 
+      this.attr('todo').backup();
+
       modal.attr({
         show: true,
         content: {
@@ -29,7 +31,7 @@ function (can, _, template) {
         if (isSaved) {
           self.attr('todo').save();
         } else {
-          // self.attr('todo').revert();
+          self.attr('todo').revert();
         }
 
         modal.unbind('show', onSettingsComplete);

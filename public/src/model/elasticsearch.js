@@ -1,6 +1,7 @@
 steal(
   'can',
   'elasticsearch',
+  'can/map/define',
 function (can, es) {
 
   var esClient = window.esClient = new es.Client({
@@ -142,6 +143,27 @@ function (can, es) {
   }, {
 
     // Instance
+    define: {
+      backupStore: {
+        serialize: false,
+        type: 'array',
+        value: []
+      }
+    },
+
+    backup: function () {
+      this.attr('backupStore').push(this.attr());
+    },
+
+    revert: function () {
+      var lastBackup = this.attr('backupStore').slice(-1).attr(0);
+
+      if (! lastBackup) {
+        return;
+      }
+
+      this.attr(lastBackup.attr(), true);
+    }
 
   });
 

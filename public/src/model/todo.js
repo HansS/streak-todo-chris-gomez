@@ -36,7 +36,6 @@ function (can, ElasticsearchModel, ScheduleModel, moment, later, _) {
         }
       }
     }
-
   });
 
   return TodoModel;

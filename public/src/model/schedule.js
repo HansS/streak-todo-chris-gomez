@@ -84,8 +84,6 @@ function (can, _, later, moment) {
             exceptions: laterInstance.exceptions
           };
 
-          console.log(laterInstance.schedules)
-
           return schedules;
         }
       },
@@ -97,8 +95,6 @@ function (can, _, later, moment) {
           var parsedPeriods = this.attr('parsedPeriods');
           var occurances = later.schedule(parsedPeriods).next(5);
           var dates = [];
-
-          console.log(occurances)
 
           _.each(occurances, function (occurance) {
             var m = moment(occurance);
