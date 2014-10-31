@@ -63,12 +63,12 @@ function (can, es) {
         index: 'streak',
         type: this.type,
         id: id,
-        body: {
-          doc: attrs
-        }
+        body:
+          // { doc: attrs }
+          attrs
       };
 
-      esClient.update(config, function (err, response) {
+      esClient.index(config, function (err, response) {
         if (err) {
           dfd.reject(err);
           return;
