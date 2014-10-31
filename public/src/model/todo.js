@@ -65,8 +65,6 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
           var relativeDate = this.attr('relativeDate');
           var rawRelativeDate = relativeDate.toDate();
 
-          console.log('relativeDate', relativeDate.toDate());
-
           // Get a Later instance from our schedule
           var schedule = later.schedule(this.attr('schedule.parsedPeriods'));
 
@@ -90,8 +88,6 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
             lastScheduledDate = moment(this.attr('createdAt')).toDate();
           }
 
-          console.log('lastScheduledDate:', lastScheduledDate);
-
           return lastScheduledDate;
         }
       },
@@ -99,7 +95,6 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
         serialize: false,
         type: 'string',
         get: function () {
-
           var completeLog = this.attr('completeLog');
           var lastScheduledDate = this.attr('lastScheduledDate');
 
@@ -111,8 +106,6 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
           var completedEntry = this.attr('completeLog').attr(searchSlug);
 
           var state = completedEntry ? 'completed' : 'pending';
-
-          console.log('state:', state);
 
           return state;
         },
@@ -128,9 +121,7 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
             completeLog.removeAttr(dateSlug);
           }
 
-          var state = this.attr('state');
-
-          return state;
+          return value;
         }
       }
     }
