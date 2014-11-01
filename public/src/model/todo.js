@@ -57,13 +57,12 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
       /**
        * Gets the last scheduled occurance or created date.
        *
-       * @return Date
+       * @return Moment instance
        **/
       lastScheduledDate: {
         serialize: false,
         get: function () {
           var relativeDate = this.attr('relativeDate');
-          var rawRelativeDate = relativeDate.toDate();
 
           // Get a Later instance from our schedule
           var schedule = later.schedule(this.attr('schedule.parsedPeriods'));
@@ -72,21 +71,28 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
           var lastScheduledDate = null;
 
           // If relativeDate is a valid date in the schedule..
-          // NOTE: relativeDate is a Moment insance. Thus the toDate().
-          if (schedule.isValid(rawRelativeDate)) {
-            lastScheduledDate = rawRelativeDate;
+          if (schedule.isValid(relativeDate.toDate())) {
+            lastScheduledDate = relativeDate;
           }
 
           // If there is a previous occurance in the schedule..
-          else if (schedule.prev(1, rawRelativeDate)) {
-            lastScheduledDate = schedule.prev(1, rawRelativeDate);
+          else if (schedule.prev(1, relativeDate.toDate())) {
+            var lastOccurance = schedule.prev(1, relativeDate.toDate());
+            lastScheduledDate = moment(lastOccurance);
           }
 
-          // If we haven't found a lastScheduledDate using the schedule, use the
-          // createdAt time
+          // If we haven't found a lastScheduledDate using the schedule, use
+          // the createdAt time.
           else {
-            lastScheduledDate = moment(this.attr('createdAt')).toDate();
+            lastScheduledDate = moment(this.attr('createdAt'));
           }
+
+          // Change the time to the beginning of the day
+          lastScheduledDate
+            .milliseconds(0)
+            .seconds(0)
+            .minute(0)
+            .hour(0);
 
           return lastScheduledDate;
         }
@@ -111,14 +117,46 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
         },
 
         set: function (value) {
-          var lastScheduledDate = moment(this.attr('lastScheduledDate'));
-          var dateSlug = lastScheduledDate.format(constants.dateSlugFormat);
+          var relativeDate = this.attr('relativeDate');
+          var lastScheduledDate = this.attr('lastScheduledDate');
           var completeLog = this.attr('completeLog');
 
           if (value === 'completed') {
+
+            // Convert the lastScheduledDate to a slug
+            var dateSlug = lastScheduledDate.format(constants.dateSlugFormat);
+
+            // Add the slug to the completeLog
             completeLog.attr(dateSlug, 1);
+
           } else if (value === 'pending') {
-            completeLog.removeAttr(dateSlug);
+
+            var relativeTimestamp = relativeDate.unix();
+            var lastScheduledTimestamp = lastScheduledDate.unix();
+
+            // There may be dateSlug's in the completeLog that fall between
+            // the relativeDate and the lastScheduledDate if the user has
+            // made the schedule less frequent after having completed the todo
+            // many times while it was more frequent. To account for this we
+            // need to remove all the dateSlug's in the completedLog between
+            // the relativeDate and the lastScheduledDate. We can't just
+            // remove the last completedLog.
+            // NOTE: This dateSlug may not be in the completeLog if
+            // the lastScheduledDate falls back createdAt date.
+            completeLog.each(function (offset, completedDateSlug) {
+
+              // Convert the date slug to a time object that we can compare
+              // against relativeDate and lastScheduled.
+              var completedTimestamp =
+                moment(completedDateSlug, constants.dateSlugFormat).unix();
+
+
+              if ((lastScheduledTimestamp <= completedTimestamp) &&
+                  (completedTimestamp <= relativeTimestamp)) {
+                completeLog.removeAttr(completedDateSlug);
+              }
+
+            });
           }
 
           return value;
