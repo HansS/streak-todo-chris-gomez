@@ -14,6 +14,9 @@ function (can, template, state, TodoModel) {
 
   var ViewModel = can.Map.extend({
     define: {
+      dueTodos: {
+        value: new can.List()
+      }
     }
   });
 
@@ -22,26 +25,11 @@ function (can, template, state, TodoModel) {
     template: template,
     scope: ViewModel,
     events: {
-      '{scope} date': 'updateTodoList',
+      '{scope} date': 'filterTodoList',
 
       inserted: function () {
         var self = this;
-
-        // Get things rolling.
-        var todoList = this.updateTodoList();
-
-        // DEV: Open the first todo's settings
-        /*todoList.then(function (todos) {
-          var todoItem = self.element.find('app-todo').first();
-          var scope = todoItem.scope();
-          scope.showSettingsMenu();
-        });*/
-      },
-
-      updateTodoList: function () {
-        var self = this;
         var userId = state.attr('user').attr('_id');
-        var date = this.scope.attr('date');
 
         // This should never happen.
         if (! userId) {
@@ -62,7 +50,6 @@ function (can, template, state, TodoModel) {
           }
         });
 
-
         // Handle a failed findAll
         allTodos.fail(function () {
           state.alert('danger', 'Blast',
@@ -70,20 +57,29 @@ function (can, template, state, TodoModel) {
             'and try again.');
         });
 
-        var stateAwareTodos = allTodos.then(function (todos) {
-          todos.each(function (todo) {
-            todo.attr('relativeDate', state.attr('date'));
+        state.attr('todos').replace(allTodos);
+
+        this.filterTodoList();
+      },
+
+      filterTodoList: function () {
+        var date = state.attr('date');
+        var dueTodos = state.attr('todos').then(function (todos) {
+
+          // Only show todos that are due
+          todos = todos.filter(function (todo) {
+            var lastCompletedTimestamp =
+              todo.attr('lastScheduledDate').unix();
+            var dateTimestamp = date.unix();
+
+            return lastCompletedTimestamp <= dateTimestamp;
           });
 
           return todos;
         });
 
-        // Use allTodos in the app
-        state.attr('todos').replace(stateAwareTodos);
-
-        // Return the deferred in case it's useful elsewhere
-        return stateAwareTodos;
+        this.scope.attr('dueTodos').replace(dueTodos);
       }
-    },
+    }
   });
 });

@@ -58,7 +58,10 @@ function (can, state) {
         markup: '<auth-controller user="{user}" action="{action}"></auth-controller>'
       },
       log: {
-        markup: '<log-controller date-slug="{dateSlug}" modal="{modal}"></log-controller>',
+        markup: '<log-controller ' +
+          'date="{date}" ' + // The log-controller binds to date changes
+          'date-slug="{dateSlug}" ' +
+          'modal="{modal}"></log-controller>',
         requireAuth: true
       }
     };
