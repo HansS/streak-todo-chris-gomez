@@ -70,14 +70,16 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
           // We'll define this later
           var lastScheduledDate = null;
 
+          // Get the last scheduled date relative to the current date
+          var lastOccurance = schedule.prev(1, relativeDate.toDate());
+
           // If relativeDate is a valid date in the schedule..
           if (schedule.isValid(relativeDate.toDate())) {
             lastScheduledDate = relativeDate;
           }
 
           // If there is a previous occurance in the schedule..
-          else if (schedule.prev(1, relativeDate.toDate())) {
-            var lastOccurance = schedule.prev(1, relativeDate.toDate());
+          else if (lastOccurance) {
             lastScheduledDate = moment(lastOccurance);
           }
 

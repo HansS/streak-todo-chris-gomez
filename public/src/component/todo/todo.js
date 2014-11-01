@@ -25,6 +25,11 @@ function (can, _, template) {
         }
       }
     },
+    toggleIsCompleted: function () {
+
+      // Invert isCompleted
+      this.attr('isCompleted', !this.attr('isCompleted'));
+    },
     showSettingsMenu: function () {
       var self = this;
       var modal = this.attr('modal');
