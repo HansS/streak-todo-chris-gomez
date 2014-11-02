@@ -37,6 +37,7 @@ function (can, template, state, TodoModel) {
         }
 
         // Get all the todos for this user
+        // TODO: Move this to the state model
         var allTodos = TodoModel.findAll({
           query: {
             match: {
