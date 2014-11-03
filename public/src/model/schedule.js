@@ -55,7 +55,7 @@ function (can, _, later, moment) {
         serialize: true,
         type: 'string',
         get: function () {
-          var cronParts = ['*', '*'];
+          var cronParts = ['0', '0'];
           var cronString = null;
 
           cronParts.push(this.attr('dayOfMonth'));
@@ -101,6 +101,13 @@ function (can, _, later, moment) {
           });
 
           return dates;
+        }
+      },
+
+      laterSchedule: {
+        serialize: false,
+        get: function () {
+          return later.schedule(this.attr('parsedPeriods'));
         }
       }
     }

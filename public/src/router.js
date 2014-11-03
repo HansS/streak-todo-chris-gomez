@@ -61,7 +61,8 @@ function (can, state) {
         markup: '<log-controller ' +
           'date="{date}" ' + // The log-controller binds to date changes
           'date-slug="{dateSlug}" ' +
-          'modal="{modal}"></log-controller>',
+          'modal="{modal}" ' +
+          'todos="{todos}"></log-controller>',
         requireAuth: true
       }
     };
@@ -140,8 +141,8 @@ function (can, state) {
       }
 
       if (controllerName === lastControllerName) {
-        console.log(
-          'Info: Cancelling render. Duplicate controller names.');
+        // console.log(
+        //   'Info: Cancelling render. Duplicate controller names.');
         return;
       } else {
         lastControllerName = controllerName;

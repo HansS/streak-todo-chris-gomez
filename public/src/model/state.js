@@ -102,17 +102,15 @@ function (can, UserModel, TodoModel, constants) {
             .hour(0);
         },
         set: function (value) {
-
-          // Pass the date to the todos
-          this.attr('todos').each(function (todo) {
-            todo.attr('relativeDate', value);
-          });
-
           // Set the time to 0
           value.milliseconds(0)
             .seconds(0)
             .minute(0)
             .hour(0);
+
+          this.attr('todos').each(function (todo) {
+            todo.attr('relativeDate', value);
+          });
 
           return value;
         }

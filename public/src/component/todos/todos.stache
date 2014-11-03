@@ -5,11 +5,9 @@
       <!--<todos-progress-bar todos="{todos}"></todos-progress-bar>-->
 
       <div class="list-group">
-        {{#dueTodos}}
-          <div class="list-group-item {{#if isCompleted}}disabled{{/if}}">
-            <app-todo todo="{.}" modal="{modal}"></app-todo>
-          </div>
-        {{/dueTodos}}
+        {{#todos}}
+          <app-todo todo="{.}" modal="{modal}"></app-todo>
+        {{/todos}}
       </div>
 
     </div>

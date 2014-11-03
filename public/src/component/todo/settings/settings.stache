@@ -61,7 +61,7 @@
       <ol>
         {{#each todo.schedule.upcommingDates}}
         <li>
-          {{.}}
+          {{formatDate .}}
         </li>
         {{/each}}
       </ol>

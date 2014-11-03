@@ -1,5 +1,6 @@
 steal(
   'can',
+  'lodash',
   './log.stache!',
   'src/model/state.js',
   'src/model/todo.js',
@@ -10,7 +11,7 @@ steal(
   'src/component/todos',
   'can/map/define',
   'can/list/promise',
-function (can, template, state, TodoModel) {
+function (can, _, template, state, TodoModel) {
 
   var ViewModel = can.Map.extend({
     define: {
@@ -25,7 +26,6 @@ function (can, template, state, TodoModel) {
     template: template,
     scope: ViewModel,
     events: {
-      '{scope} date': 'filterTodoList',
 
       inserted: function () {
         var self = this;
@@ -49,6 +49,14 @@ function (can, template, state, TodoModel) {
               order: 'desc'
             }
           }
+        }).then(function (todos) {
+
+          // Transfer the date over to the todos
+          todos.each(function (todo) {
+            todo.attr('relativeDate', self.scope.attr('date'));
+          });
+
+          return todos;
         });
 
         // Handle a failed findAll
@@ -59,27 +67,6 @@ function (can, template, state, TodoModel) {
         });
 
         state.attr('todos').replace(allTodos);
-
-        this.filterTodoList();
-      },
-
-      filterTodoList: function () {
-        var date = state.attr('date');
-        var dueTodos = state.attr('todos').then(function (todos) {
-
-          // Only show todos that are due
-          todos = todos.filter(function (todo) {
-            var lastCompletedTimestamp =
-              todo.attr('lastScheduledDate').unix();
-            var dateTimestamp = date.unix();
-
-            return lastCompletedTimestamp <= dateTimestamp;
-          });
-
-          return todos;
-        });
-
-        this.scope.attr('dueTodos').replace(dueTodos);
       }
     }
   });

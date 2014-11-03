@@ -1,9 +1,10 @@
 steal('can',
   './settings.stache!',
+  'src/utils/constants.js',
 
   './settings.less!',
   'can/map/define',
-  function (can, template) {
+  function (can, template, constants) {
 
   var ViewModel = can.Map.extend({
     define: {
@@ -18,6 +19,12 @@ steal('can',
     events: {
       inserted: function () {
 
+      }
+    },
+    helpers: {
+      formatDate: function (slug) {
+        var m = moment(slug, constants.dateSlugFormat);
+        return m.format('dddd, MMM. Do, YYYY');
       }
     }
   });

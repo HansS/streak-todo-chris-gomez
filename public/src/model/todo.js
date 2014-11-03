@@ -6,9 +6,11 @@ steal(
   'src/model/elasticsearch.js',
   'src/model/schedule.js',
   'src/utils/constants.js',
+  'src/utils/remove-time-from-moment.js',
 
   'can/map/define',
-function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
+function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants,
+    removeTimeFromMoment) {
 
   var TodoModel = ElasticsearchModel.extend({
     type: 'todo',
@@ -46,14 +48,22 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
       },
       relativeDate: {
         serialize: false,
-        value: function () {
-          return moment();
-        },
         set: function (value) {
           this.attr('schedule').attr('relativeDate', value);
           return value;
         }
       },
+
+      firstScheduledDate: {
+        serialize: false,
+        get: function () {
+          var schedule = this.attr('schedule.laterSchedule');
+          var createdAtDate = removeTimeFromMoment(moment(this.attr('createdAt')));
+          var firstScheduledDate = schedule.next(1, createdAtDate.toDate());
+          return moment(firstScheduledDate);
+        }
+      },
+
       /**
        * Gets the last scheduled occurance or created date.
        *
@@ -62,10 +72,11 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
       lastScheduledDate: {
         serialize: false,
         get: function () {
-          var relativeDate = this.attr('relativeDate');
+          var relativeDate = this.attr('relativeDate').clone();
+          var firstScheduledDate = this.attr('firstScheduledDate').clone();
 
           // Get a Later instance from our schedule
-          var schedule = later.schedule(this.attr('schedule.parsedPeriods'));
+          var schedule = this.attr('schedule.laterSchedule');
 
           // We'll define this later
           var lastScheduledDate = null;
@@ -73,20 +84,31 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
           // Get the last scheduled date relative to the current date
           var lastOccurance = schedule.prev(1, relativeDate.toDate());
 
-          // If relativeDate is a valid date in the schedule..
-          if (schedule.isValid(relativeDate.toDate())) {
+          // If relativeDate is a valid date in the schedule, use the
+          // relativeDate. This is the latest the lastScheduledDate can be.
+          // TODO: For whatever reason Later's schedule adds 19 hrs to each
+          // day. This needs to be fixed in a better way.
+          if (schedule.isValid(relativeDate.clone().hours(19).toDate())) {
             lastScheduledDate = relativeDate;
           }
 
-          // If there is a previous occurance in the schedule..
+          // If the the relativeDate is before the firstScheduledDate, use
+          // the firstScheduledDate. This is the earliest the lastScheduledDate
+          // can be.
+          else if (relativeDate.unix() <= firstScheduledDate.unix()) {
+            lastScheduledDate = firstScheduledDate;
+          }
+
+          // If there is a previous occurance in the schedule, use
+          // lastOccurance.
           else if (lastOccurance) {
             lastScheduledDate = moment(lastOccurance);
           }
 
-          // If we haven't found a lastScheduledDate using the schedule, use
-          // the createdAt time.
+          // If the schedule hasn't covered it, use the createdAt time
           else {
-            lastScheduledDate = moment(this.attr('createdAt'));
+            lastScheduledDate = removeTimeFromMoment(
+              moment(this.attr('createdAt')));
           }
 
           // Change the time to the beginning of the day
@@ -99,13 +121,38 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
           return lastScheduledDate;
         }
       },
+
+      lastScheduledSlug: {
+        serialize: false,
+        get: function () {
+          var lastScheduledDate = this.attr('lastScheduledDate');
+          return lastScheduledDate.format(constants.dateSlugFormat);
+        }
+      },
+
+      lastCompletedDate: {
+        serialize: false,
+        get: function () {
+          var slug = this.attr('lastScheduledSlug');
+          var completeLog = this.attr('completeLog');
+          var offset = completeLog.attr(slug);
+
+          if (completeLog.attr('length') === 0 ||
+              typeof offset === 'undefined') {
+            return false;
+          }
+
+          return this.attr('lastScheduledDate').add(offset, 'days');
+        }
+      },
+
       state: {
         serialize: false,
         type: 'string',
         get: function () {
           var completeLog = this.attr('completeLog');
-          var lastScheduledDate = this.attr('lastScheduledDate');
-
+          var lastScheduledDate = this.attr('lastScheduledDate').clone();
+          debugger;
           // Convert the date to a slug
           var searchSlug = moment(lastScheduledDate)
             .format(constants.dateSlugFormat);
@@ -113,7 +160,9 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
           // Search for the slug in the completedLog
           var completedEntry = this.attr('completeLog').attr(searchSlug);
 
-          var state = completedEntry ? 'completed' : 'pending';
+          var state = typeof completedEntry !== 'undefined'  ?
+            'completed' :
+            'pending';
 
           return state;
         },
@@ -128,8 +177,12 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants) {
             // Convert the lastScheduledDate to a slug
             var dateSlug = lastScheduledDate.format(constants.dateSlugFormat);
 
+            // Get the difference between the lastScheduledDate and the
+            // relativeDate
+            var dayDiff = relativeDate.diff(lastScheduledDate, 'days');
+
             // Add the slug to the completeLog
-            completeLog.attr(dateSlug, 1);
+            completeLog.attr(dateSlug, dayDiff);
 
           } else if (value === 'pending') {
 

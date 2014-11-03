@@ -6,7 +6,9 @@
       </button>
     </div>
     <div class="current-col col-xs-8">
-      {{formatDate date}}
+      <a href="/log">
+        {{formatDate date}}
+      </a>
     </div>
     <div class="next-col col-xs-2">
       <button class="btn btn-default btn-xs" can-click="goForwardOneDay">
