@@ -6,7 +6,9 @@
 
       <div class="list-group">
         {{#todos}}
-          <app-todo todo="{.}" modal="{modal}"></app-todo>
+          <div class="list-group-item {{#isCompleted .}}disabled{{/isCompleted}}">
+            <app-todo todo="{.}" modal="{modal}"></app-todo>
+          </div>
         {{/todos}}
       </div>
 

@@ -77,7 +77,9 @@ function (can, UserModel, TodoModel, constants) {
       },
       todos: {
         serialize: false,
-        value: new TodoModel.List()
+        value: function () {
+          return new TodoModel.List()
+        }
       },
       modal: {
         serialize: false,

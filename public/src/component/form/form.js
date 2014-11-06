@@ -31,6 +31,7 @@ function (can, template, state, TodoModel) {
       var todoModel = new TodoModel({
         userId: state.attr('user').attr('_id'),
         title: title,
+        relativeDate: state.attr('date'),
         createdAt: new Date().toISOString()
       });
 
