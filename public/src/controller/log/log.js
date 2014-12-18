@@ -3,20 +3,20 @@ steal(
   'lodash',
   './log.stache!',
   'src/model/state.js',
-  'src/model/todo.js',
+  'src/model/action.js',
   './log.less!',
 
   'src/component/date-nav',
   'src/component/form',
-  'src/component/todos',
+  'src/component/actions',
   'can/map/define',
   'can/list/promise',
-function (can, _, template, state, TodoModel) {
+function (can, _, template, state, ActionModel) {
 
   var ViewModel = can.Map.extend({
     define: {
-      dueTodos: {
-        value: new can.List()
+      actions: {
+        Type: ActionModel.List
       }
     }
   });
@@ -33,12 +33,12 @@ function (can, _, template, state, TodoModel) {
 
         // This should never happen.
         if (! userId) {
-          throw "Cannot get a todo list without a user id.";
+          throw "Cannot get a action list without a user id.";
         }
 
-        // Get all the todos for this user
+        // Get all the actions for this user
         // TODO: Move this to the state model
-        var allTodos = TodoModel.findAll({
+        var allActions = ActionModel.findAll({
           query: {
             match: {
               userId: userId
@@ -49,24 +49,24 @@ function (can, _, template, state, TodoModel) {
               order: 'desc'
             }
           }
-        }).then(function (todos) {
+        }).then(function (actions) {
 
-          // Transfer the date over to the todos
-          todos.each(function (todo) {
-            todo.attr('relativeDate', self.scope.attr('date'));
+          // Transfer the date over to the actions
+          actions.each(function (action) {
+            action.attr('relativeDate', self.scope.attr('date'));
           });
 
-          return todos;
+          return actions;
         });
 
         // Handle a failed findAll
-        allTodos.fail(function () {
+        allActions.fail(function () {
           state.alert('danger', 'Blast',
-            'There was an error getting your todos. Cross your fingers ' +
+            'There was an error getting your actions. Cross your fingers ' +
             'and try again.');
         });
 
-        state.attr('todos').replace(allTodos);
+        state.attr('actions').replace(allActions);
       }
     }
   });

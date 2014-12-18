@@ -9,25 +9,6 @@ function (can, _, template) {
 
   var ViewModel = can.Map.extend({
     define: {
-      isCompleted: {
-        get: function () {
-          var state = this.attr('action').attr('state') === 'completed';
-
-          return state ?
-            true : false;
-        },
-        set: function (value) {
-          var action = this.attr('action');
-
-          action.attr('state', (value ? 'completed' : 'pending'));
-
-          action.save();
-        }
-      }
-    },
-    toggleIsCompleted: function () {
-      // Invert isCompleted
-      this.attr('isCompleted', !this.attr('isCompleted'));
     },
     showSettingsMenu: function () {
       var self = this;

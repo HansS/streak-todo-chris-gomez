@@ -1,12 +1,12 @@
 steal(
   'can',
   './user.js',
-  './todo.js',
+  './action.js',
   'src/utils/constants.js',
 
   'can/map/define',
   'jquery-cookie',
-function (can, UserModel, TodoModel, constants) {
+function (can, UserModel, ActionModel, constants) {
 
   var State = can.Map.extend({
     define: {
@@ -79,11 +79,10 @@ function (can, UserModel, TodoModel, constants) {
           return userModel;
         }
       },
-      todos: {
+      actions: {
         serialize: false,
-        value: function () {
-          return new TodoModel.List()
-        }
+        Type: ActionModel.List,
+        Value: ActionModel.List
       },
       modal: {
         serialize: false,
@@ -113,10 +112,6 @@ function (can, UserModel, TodoModel, constants) {
             .seconds(0)
             .minute(0)
             .hour(0);
-
-          this.attr('todos').each(function (todo) {
-            todo.attr('relativeDate', value);
-          });
 
           return value;
         }

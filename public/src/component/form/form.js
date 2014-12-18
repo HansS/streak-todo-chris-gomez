@@ -2,24 +2,28 @@ steal(
   'can',
   './form.stache!',
   'src/model/state.js',
-  'src/model/todo.js',
+  'src/model/action.js',
   './form.less!',
   'can/map/define',
-function (can, template, state, TodoModel) {
+function (can, template, state, ActionModel) {
 
   var ViewModel = can.Map.extend({
     define: {
+      actions: {
+        Type: ActionModel.List,
+        Value: ActionModel.List
+      }
     },
 
-    createTodo: function (context, el, ev) {
+    createAction: function (context, el, ev) {
 
       // Don't submit the form
       ev.preventDefault();
 
-      // Get the todo input
+      // Get the event input
       var input = el.find('[name="title"]');
 
-      // Get the todo title
+      // Get the event title
       var title = input.val();
 
       // Title required
@@ -27,27 +31,31 @@ function (can, template, state, TodoModel) {
         return;
       }
 
-      // Create a todo model
-      var todoModel = new TodoModel({
+      // Create a event model
+      var actionModel = new ActionModel({
         userId: state.attr('user').attr('_id'),
         title: title,
         relativeDate: state.attr('date'),
         createdAt: new Date().toISOString()
       });
 
-      // Add the todo to the beginning of the todo list
+      // Add the event to the beginning of the event list
       // TODO: Don't rely on unshift. Sort Todo.List by created date/time.
       // NOTE: I should be able to add a model to the list with any
       // createdAt time and have it inserted in the right place.
-      this.attr('todos').unshift(todoModel);
+      this.attr('actions').unshift(actionModel);
 
       // Persist the model to the server
-      todoModel.save();
+      actionModel.save();
 
       // Empty the input
       input.val('').trigger('change');
 
 
+    },
+
+    searchActions: function (context, el, ev) {
+      
     }
   });
 

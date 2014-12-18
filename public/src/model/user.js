@@ -1,9 +1,9 @@
 steal(
   'can',
   'src/model/elasticsearch.js',
-  './todo.js',
+  './action.js',
   'can/map/define',
-function (can, ElasticsearchModel, TodoModel) {
+function (can, ElasticsearchModel, ActionModel) {
   return ElasticsearchModel.extend({
 
     // Static
@@ -24,10 +24,9 @@ function (can, ElasticsearchModel, TodoModel) {
         type: 'boolean',
         value: false
       },
-      todos: {
+      actions: {
         serialize: false,
-        Type: TodoModel.List,
-        value: new TodoModel.List()
+        Type: ActionModel.List
       }
     }
   });
