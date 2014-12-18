@@ -28,7 +28,11 @@ function (can, UserModel, TodoModel, constants) {
       },
       alerts: {
         serialize: false,
-        value: new can.List()
+        // Type: can.List,
+        // Value: can.List,
+        value: function () {
+          return new can.List();
+        }
       },
       user: {
         serialize: false,

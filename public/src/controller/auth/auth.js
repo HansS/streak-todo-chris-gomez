@@ -124,6 +124,7 @@ function (can, template, state, UserModel) {
 
             // Make the model a real.
             self.attr('user').attr('_id', response._id);
+            self.attr('user').attr('loggedIn', true);
 
             // Log em' in
             $.cookie('authUser', response._id);

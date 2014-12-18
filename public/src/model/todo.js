@@ -152,7 +152,7 @@ function (can, moment, later, _, ElasticsearchModel, ScheduleModel, constants,
         get: function () {
           var completeLog = this.attr('completeLog');
           var lastScheduledDate = this.attr('lastScheduledDate').clone();
-          debugger;
+
           // Convert the date to a slug
           var searchSlug = moment(lastScheduledDate)
             .format(constants.dateSlugFormat);
