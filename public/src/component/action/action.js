@@ -1,9 +1,9 @@
 steal(
   'can',
   'lodash',
-  './todo.stache!',
+  './action.stache!',
 
-  './todo.less!',
+  './action.less!',
   'can/map/define',
 function (can, _, template) {
 
@@ -11,17 +11,17 @@ function (can, _, template) {
     define: {
       isCompleted: {
         get: function () {
-          var state = this.attr('todo').attr('state') === 'completed';
+          var state = this.attr('action').attr('state') === 'completed';
 
           return state ?
             true : false;
         },
         set: function (value) {
-          var todo = this.attr('todo');
+          var action = this.attr('action');
 
-          todo.attr('state', (value ? 'completed' : 'pending'));
+          action.attr('state', (value ? 'completed' : 'pending'));
 
-          todo.save();
+          action.save();
         }
       }
     },
@@ -33,14 +33,14 @@ function (can, _, template) {
       var self = this;
       var modal = this.attr('modal');
 
-      this.attr('todo').backup();
+      this.attr('action').backup();
 
       modal.attr({
         show: true,
         content: {
-          script: 'src/component/todo/settings/',
-          template: '<todo-settings todo="{.}"></todo-settings>',
-          scope: this.attr('todo')
+          script: 'src/component/action/settings/',
+          template: '<action-settings action="{.}"></action-settings>',
+          scope: this.attr('action')
         }
       });
 
@@ -48,9 +48,9 @@ function (can, _, template) {
         var isSaved = modal.attr('confirmed');
 
         if (isSaved) {
-          self.attr('todo').save();
+          self.attr('action').save();
         } else {
-          self.attr('todo').revert();
+          self.attr('action').revert();
         }
 
         modal.unbind('show', onSettingsComplete);
@@ -62,7 +62,7 @@ function (can, _, template) {
   });
 
   return can.Component.extend({
-    tag: 'app-todo',
+    tag: 'app-action',
     template: template,
     scope: ViewModel,
     events: {

@@ -13,7 +13,7 @@ steal('can',
   });
 
   return can.Component.extend({
-    tag: 'todo-settings',
+    tag: 'action-settings',
     template: template,
     scope: ViewModel,
     events: {

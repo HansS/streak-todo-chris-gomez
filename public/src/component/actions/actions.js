@@ -1,9 +1,9 @@
 steal(
   'can',
-  './todos.stache!',
+  './actions.stache!',
 
-  './todos.less!',
-  'src/component/todo',
+  './actions.less!',
+  'src/component/action',
   'can/map/define',
 function (can, template) {
 
@@ -13,7 +13,7 @@ function (can, template) {
   });
 
   return can.Component.extend({
-    tag: 'app-todos',
+    tag: 'app-actions',
     template: template,
     scope: ViewModel,
     events: {
@@ -25,8 +25,8 @@ function (can, template) {
       }
     },
     helpers: {
-      isCompleted: function (todo, options) {
-        if (todo.attr('state') === 'completed') {
+      isCompleted: function (action, options) {
+        if (action.attr('state') === 'completed') {
           return options.fn(this);
         } else {
           return options.inverse(this);

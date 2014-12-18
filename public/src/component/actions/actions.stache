@@ -2,14 +2,14 @@
   <div class="row">
     <div class="col-xs-12">
 
-      <!--<todos-progress-bar todos="{todos}"></todos-progress-bar>-->
+      <!--<actions-progress-bar actions="{actions}"></actions-progress-bar>-->
 
       <div class="list-group">
-        {{#todos}}
+        {{#actions}}
           <div class="list-group-item {{#isCompleted .}}disabled{{/isCompleted}}">
-            <app-todo todo="{.}" modal="{modal}"></app-todo>
+            <app-action action="{.}" modal="{modal}"></app-action>
           </div>
-        {{/todos}}
+        {{/actions}}
       </div>
 
     </div>

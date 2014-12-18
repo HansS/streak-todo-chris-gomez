@@ -1,7 +1,7 @@
 <div class="title-panel panel panel-default">
   <div class="panel-heading">Title</div>
   <div class="panel-body">
-    <input class="form-control" type="text" can-value="{todo.title}" />
+    <input class="form-control" type="text" can-value="{action.title}" />
   </div>
 </div>
 
@@ -9,7 +9,7 @@
   <div class="panel-heading">Schedule</div>
   <div class="panel-body">
     <p>
-      Use crontab syntax to configure when this todo is shown.
+      Use crontab syntax to configure when this action is shown.
     </p>
   </div>
   <ul class="list-group">
@@ -19,7 +19,7 @@
           Day of month:
         </div>
         <div class="col-xs-4">
-          <input class="input-sm form-control" type="text" can-value="{todo.schedule.dayOfMonth}" />
+          <input class="input-sm form-control" type="text" can-value="{action.schedule.dayOfMonth}" />
         </div>
       </div>
     </li>
@@ -29,7 +29,7 @@
           Month:
         </div>
         <div class="col-xs-4">
-          <input class="input-sm form-control" type="text" can-value="{todo.schedule.month}" />
+          <input class="input-sm form-control" type="text" can-value="{action.schedule.month}" />
         </div>
       </div>
     </li>
@@ -39,7 +39,7 @@
           Day of week:
         </div>
         <div class="col-xs-4">
-          <input class="input-sm form-control" type="text" can-value="{todo.schedule.dayOfWeek}" />
+          <input class="input-sm form-control" type="text" can-value="{action.schedule.dayOfWeek}" />
         </div>
       </div>
     </li>
@@ -49,17 +49,17 @@
           Year:
         </div>
         <div class="col-xs-4">
-          <input class="input-sm form-control" type="text" can-value="{todo.schedule.year}" />
+          <input class="input-sm form-control" type="text" can-value="{action.schedule.year}" />
         </div>
       </div>
     </li>
     <li class="list-group-item">
-    {{#if todo.schedule.upcommingDates.length}}
+    {{#if action.schedule.upcommingDates.length}}
       <span class="help-block">
         Future occurances:
       </span>
       <ol>
-        {{#each todo.schedule.upcommingDates}}
+        {{#each action.schedule.upcommingDates}}
         <li>
           {{formatDate .}}
         </li>
