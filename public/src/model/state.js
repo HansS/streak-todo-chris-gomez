@@ -84,6 +84,28 @@ function (can, UserModel, ActionModel, constants) {
         Type: ActionModel.List,
         Value: ActionModel.List
       },
+      actionsGroupedByDate: {
+        get: function () {
+          var actions = this.attr('actions'); 
+          var groupedActions = new can.Map(); 
+
+          actions.each(function (action) {
+            var relativeDate = moment(action.attr('relativeDate')); 
+            var relativeDateSlug = 
+              relativeDate.format(constants.dateSlugFormat); 
+            var group = groupedActions.attr(relativeDateSlug); 
+            
+            if (typeof group === 'undefined') {
+              group = new can.List(); 
+              groupedActions.attr(relativeDateSlug, group); 
+            }
+            
+            group.push(action); 
+          }); 
+
+          return groupedActions; 
+        }
+      },
       modal: {
         serialize: false,
         value: new can.Map({

@@ -39,6 +39,9 @@ function (can, _, template) {
 
       // Listen for when the modal is closed
       modal.bind('show', onSettingsComplete);
+    },
+    deleteAction: function () {
+      this.attr('action').destroy(); 
     }
   });
 

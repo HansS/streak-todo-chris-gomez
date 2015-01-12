@@ -74,11 +74,38 @@ function (can, es) {
           return;
         }
 
-        dfd.resolve({});
-      })
+        dfd.resolve(response);
+      });
 
       return dfd;
     },
+
+    destroy: function (id, attrs) {
+      var dfd = new can.Deferred();
+
+      delete attrs._id;
+
+      var config = {
+        index: 'streak',
+        type: this.type,
+        id: id,
+        body:
+          // { doc: attrs }
+          attrs
+      };
+
+      esClient.delete(config, function (err, response) {
+        if (err) {
+          dfd.reject(err);
+          return;
+        }
+
+        dfd.resolve(response);
+      });
+
+      return dfd;
+    },
+
 
     findOne: function (attrs) {
 

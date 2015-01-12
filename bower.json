@@ -25,9 +25,13 @@
     "fastclick": "~1.0.3",
     "jquery-cookie": "~1.4.1",
     "elasticsearch": "~2.4.3",
-    "later": "*"
+    "later": "*",
+    "font-awesome": "~4.2.0"
   },
   "resolutions": {
     "canjs": "~2.1.3"
+  },
+  "devDependencies": {
+    "qunit": "~1.15.0"
   }
 }

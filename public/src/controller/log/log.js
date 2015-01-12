@@ -36,6 +36,13 @@ function (can, _, template, state, ActionModel) {
           throw "Cannot get a action list without a user id.";
         }
 
+        // Initialize
+        this.loadActions(); 
+      }, 
+
+      loadActions: function () {
+        var userId = state.attr('user').attr('_id');
+
         // Get all the actions for this user
         // TODO: Move this to the state model
         var allActions = ActionModel.findAll({
@@ -43,20 +50,7 @@ function (can, _, template, state, ActionModel) {
             match: {
               userId: userId
             }
-          },
-          sort: {
-            createdAt: {
-              order: 'desc'
-            }
           }
-        }).then(function (actions) {
-
-          // Transfer the date over to the actions
-          actions.each(function (action) {
-            action.attr('relativeDate', self.scope.attr('date'));
-          });
-
-          return actions;
         });
 
         // Handle a failed findAll

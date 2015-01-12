@@ -1,9 +1,11 @@
-<input class="state-toggle" type="checkbox" can-value="isCompleted" />
+<div class="actions">
+  <a href="javascript://" can-click="showSettingsMenu">
+    <span class="fa fa-info-circle"></span>
+  </a>
+  <a href="javascript://" can-click="deleteAction">
+    <span class="fa fa-trash"></span>
+  </a>
+</div>
 <a class="title {{#if isCompleted}}completed{{/if}}" href="javascript://" can-click="toggleIsCompleted">
   {{action.title}}
 </a>
-<div class="actions">
-  <a href="javascript://" can-click="showSettingsMenu">
-    <span class="glyphicon glyphicon-cog"></span>
-  </a>
-</div>

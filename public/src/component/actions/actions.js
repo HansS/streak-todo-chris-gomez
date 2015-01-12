@@ -25,13 +25,7 @@ function (can, template) {
       }
     },
     helpers: {
-      isCompleted: function (action, options) {
-        if (action.attr('state') === 'completed') {
-          return options.fn(this);
-        } else {
-          return options.inverse(this);
-        }
-      }
+      
     }
   });
 });

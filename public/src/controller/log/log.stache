@@ -1,3 +1,3 @@
 <app-date-nav date="{date}" date-slug="{dateSlug}"></app-date-nav>
 <app-form actions="{actions}"></app-form>
-<app-actions actions="{actions}"></app-actions>
+<app-actions actions="{actionsGroupedByDate}"></app-actions>

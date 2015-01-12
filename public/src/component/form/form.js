@@ -43,7 +43,9 @@ function (can, template, state, ActionModel) {
       // TODO: Don't rely on unshift. Sort Todo.List by created date/time.
       // NOTE: I should be able to add a model to the list with any
       // createdAt time and have it inserted in the right place.
+      can.batch.start();
       this.attr('actions').unshift(actionModel);
+      can.batch.stop();
 
       // Persist the model to the server
       actionModel.save();
@@ -64,7 +66,6 @@ function (can, template, state, ActionModel) {
     template: template,
     scope: ViewModel,
     events: {
-
     }
   });
 });
