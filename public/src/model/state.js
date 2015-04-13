@@ -86,24 +86,28 @@ function (can, UserModel, ActionModel, constants) {
       },
       actionsGroupedByDate: {
         get: function () {
-          var actions = this.attr('actions'); 
-          var groupedActions = new can.Map(); 
+          var actions = this.attr('actions');
+          var groupedActions = new can.Map();
+
+          // Create dependency on "actions"
+          actions.attr('length');
 
           actions.each(function (action) {
-            var relativeDate = moment(action.attr('relativeDate')); 
-            var relativeDateSlug = 
-              relativeDate.format(constants.dateSlugFormat); 
-            var group = groupedActions.attr(relativeDateSlug); 
-            
-            if (typeof group === 'undefined') {
-              group = new can.List(); 
-              groupedActions.attr(relativeDateSlug, group); 
-            }
-            
-            group.push(action); 
-          }); 
+            var relativeDate = moment(action.attr('relativeDate'));
+            var relativeDateSlug =
+              relativeDate.format(constants.dateSlugFormat);
 
-          return groupedActions; 
+            var group = groupedActions.attr(relativeDateSlug);
+
+            if (! group) {
+              group = new can.List();
+              groupedActions.attr(relativeDateSlug, group);
+            }
+
+            group.push(action);
+          });
+
+          return groupedActions;
         }
       },
       modal: {

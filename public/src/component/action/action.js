@@ -41,7 +41,7 @@ function (can, _, template) {
       modal.bind('show', onSettingsComplete);
     },
     deleteAction: function () {
-      this.attr('action').destroy(); 
+      this.attr('action').destroy();
     }
   });
 
@@ -50,7 +50,6 @@ function (can, _, template) {
     template: template,
     scope: ViewModel,
     events: {
-
     }
   });
 });

@@ -37,15 +37,16 @@ function (can, _, template, state, ActionModel) {
         }
 
         // Initialize
-        this.loadActions(); 
-      }, 
+        this.loadActions();
+      },
 
       loadActions: function () {
         var userId = state.attr('user').attr('_id');
 
         // Get all the actions for this user
         // TODO: Move this to the state model
-        var allActions = ActionModel.findAll({
+        // TODO: Find out if the state model is the best place to put this
+        var allActionsDfd = ActionModel.findAll({
           query: {
             match: {
               userId: userId
@@ -54,13 +55,13 @@ function (can, _, template, state, ActionModel) {
         });
 
         // Handle a failed findAll
-        allActions.fail(function () {
+        allActionsDfd.fail(function () {
           state.alert('danger', 'Blast',
             'There was an error getting your actions. Cross your fingers ' +
             'and try again.');
         });
 
-        state.attr('actions').replace(allActions);
+        state.attr('actions').replace(allActionsDfd);
       }
     }
   });

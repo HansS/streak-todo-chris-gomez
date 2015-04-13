@@ -12,6 +12,10 @@ function (can, template, state, ActionModel) {
       actions: {
         Type: ActionModel.List,
         Value: ActionModel.List
+      },
+      title: {
+        type: 'string',
+        value: ''
       }
     },
 
@@ -20,11 +24,8 @@ function (can, template, state, ActionModel) {
       // Don't submit the form
       ev.preventDefault();
 
-      // Get the event input
-      var input = el.find('[name="title"]');
-
       // Get the event title
-      var title = input.val();
+      var title = this.attr('title');
 
       // Title required
       if (! title) {
@@ -35,29 +36,23 @@ function (can, template, state, ActionModel) {
       var actionModel = new ActionModel({
         userId: state.attr('user').attr('_id'),
         title: title,
-        relativeDate: state.attr('date'),
+        relativeDate: state.attr('date').toISOString(),
         createdAt: new Date().toISOString()
       });
 
       // Add the event to the beginning of the event list
-      // TODO: Don't rely on unshift. Sort Todo.List by created date/time.
-      // NOTE: I should be able to add a model to the list with any
-      // createdAt time and have it inserted in the right place.
-      can.batch.start();
-      this.attr('actions').unshift(actionModel);
-      can.batch.stop();
+      // RE: Sort plugin - .push() should put the item in the correct spot
+      this.attr('actions').push(actionModel);
 
       // Persist the model to the server
       actionModel.save();
 
       // Empty the input
-      input.val('').trigger('change');
-
-
+      this.attr('title', '');
     },
 
     searchActions: function (context, el, ev) {
-      
+
     }
   });
 

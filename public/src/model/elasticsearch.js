@@ -172,6 +172,8 @@ function (can, es) {
   }, {
 
     backup: function () {
+      // TODO: Either namespace the keys with this.type, or
+      // scope backupStore to the model's prototype.
       var backups = backupStore[this.attr('_id')];
 
       if (! backups) {

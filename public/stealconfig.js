@@ -5,23 +5,10 @@ steal.config({
     "lodash/lodash": "lodash/main",
     "moment/moment": "moment",
     "fastclick/fastclick": "fastclick",
-    "later/later": "later",
-
-    // AMD
-    "can/can": "can",
-    "can/map/define/define": "can/map/define",
-    "can/route/pushstate/pushstate": "can/route/pushstate",
-    "can/view/stache/stache": "can/view/stache",
-    "can/list/promise/promise": "can/list/promise"
+    "later/later": "later"
   },
   paths: {
-
-    // AMD
-    "can": "bower_components/canjs/amd/can.js",
-    "can/*": "bower_components/canjs/amd/can/*.js",
-
-    // Steal
-    // "can/*": "bower_components/canjs/steal/canjs/*.js",
+    "can/*": "bower_components/canjs/*.js",
     "bootstrapjs/*": "bower_components/bootstrap/js/*.js",
     'elasticsearch': 'bower_components/elasticsearch/elasticsearch.js',
     "jquery": "bower_components/jquery/dist/jquery.js",

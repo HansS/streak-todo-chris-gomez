@@ -8,29 +8,24 @@ steal(
   'src/utils/remove-time-from-moment.js',
 
   'can/map/define',
+  'can/map/sort',
 function (can, moment, later, _, ElasticsearchModel, constants,
     removeTimeFromMoment) {
 
   var ActionModel = ElasticsearchModel.extend({
     type: 'action',
-    shortName: 'ActionModel',
-
-    // findAll: function () {
-    //   var results = ElasticsearchModel.findAll.apply(this, arguments);
-    //   results.then(function (actions) {
-    //     console.log(actions)
-    //   })
-    //   return results;
-    // }
-
+    shortName: 'ActionModel'
   }, {
-
     define: {
       title: {
         serialize: true,
         type: 'string'
       }
     }
+  });
+
+  ActionModel.List = ActionModel.List.extend({
+    comparator: 'createdAt'
   });
 
   return ActionModel;

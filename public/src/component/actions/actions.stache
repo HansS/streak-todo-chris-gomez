@@ -3,12 +3,12 @@
     <div class="col-xs-12">
 
       <!--<actions-progress-bar actions="{actions}"></actions-progress-bar>-->
-      
+
       {{#each actions}}
+        <h6 class="group-heading">
+          {{@key}}
+        </h6>
         <div class="list-group">
-          <h6 class="group-heading">
-            {{@key}}
-          </h6>
           {{#each .}}
             <div class="list-group-item {{#isCompleted .}}disabled{{/isCompleted}}">
               <app-action action="{.}" modal="{modal}"></app-action>
@@ -16,7 +16,7 @@
           {{/each}}
         </div>
       {{/each}}
-      
+
     </div>
   </div>
 </div>
