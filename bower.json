@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "bootstrap": "~3.3.4",
-    "canjs": "git@github.com:bitovi/canjs.git#master",
+    "canjs": "https://github.com/bitovi/canjs.git#master",
     "steal": "~0.3.0",
     "jquery": "~2.1.1",
     "lodash-amd": "~2.4.1",
