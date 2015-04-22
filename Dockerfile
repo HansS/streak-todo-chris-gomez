@@ -1,6 +1,6 @@
 FROM node
 
-COPY . /streak
+ADD . /streak
 
 WORKDIR /streak
 

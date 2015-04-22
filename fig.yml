@@ -2,11 +2,10 @@ web:
   build: .
   volumes:
     - .:/streak
-  working_dir: /streak
   links:
     - es
   ports:
-    - "9000:9000"
+    - "80:9000"
   environment:
     NODE_ENV: development
   command: grunt
