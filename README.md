@@ -1,10 +1,9 @@
 # Setup:
 
-- Install `docker-osx`
-- Install `fig`
-- Run `docker-osx start`
+- Install Docker
+- Install Fig
 - Run `fig build`
-- Run `fig start`
+- Run `fig up -d`
 - Run `fig run web bash`
 - Run `./scripts/elasticsearch/setup`
 - Have fun!
