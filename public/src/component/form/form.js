@@ -53,6 +53,29 @@ function (can, template, state, ActionModel) {
 
     searchActions: function (context, el, ev) {
 
+      ev.preventDefault();
+
+      var title = this.attr('title');
+
+      if (title.length < 2) {
+        return;
+      }
+
+      var searchDfd = ActionModel.findAll({
+        query: {
+          fuzzy_like_this_field: {
+            title: {
+              like_text: title
+            }
+          }
+        }
+      });
+
+      state.attr('actions').replace(searchDfd);
+    },
+
+    clearInput: function () {
+      this.attr('title', '');
     }
   });
 

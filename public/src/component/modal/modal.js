@@ -34,16 +34,10 @@ steal('can',
     scope: ViewModel,
     events: {
       '{scope} modal.show': 'respondToShowToggle',
-
-      init: function () {
-        // These properties are usually set together. Make sure we don't
-        // rerender back-to-back when this occurs.
-        this.debouncedRenderContent =
-          _.debounce(can.proxy(this.renderContent, this), 100);
-        this.on(this.scope, 'modal.content.script', 'debouncedRenderContent');
-        this.on(this.scope, 'modal.content.template', 'debouncedRenderContent');
-        this.on(this.scope, 'modal.content.scope', 'debouncedRenderContent');
-      },
+      '{scope} modal.content': 'renderContent',
+      '{scope} modal.content.script': 'renderContent',
+      '{scope} modal.content.template': 'renderContent',
+      '{scope} modal.content.scope': 'renderContent',
 
       inserted: function () {
         var self = this;
@@ -77,6 +71,13 @@ steal('can',
       },
 
       renderContent: function (context, ev) {
+
+        if (ev.batchNum && ev.batchNum === this._lastBatchNum) {
+          return;
+        }
+
+        this._lastBatchNum = ev.batchNum;
+
         var content = this.scope.attr('modal').attr('content');
         var script = content.attr('script');
         var template = content.attr('template');

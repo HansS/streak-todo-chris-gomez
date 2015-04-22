@@ -6,7 +6,7 @@
 
       {{#each actions}}
         <h6 class="group-heading">
-          {{@key}}
+          <a href="/log/{{@key}}">{{convertSlugToHumanReadableDate @key}}</a>
         </h6>
         <div class="list-group">
           {{#each .}}

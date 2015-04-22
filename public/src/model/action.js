@@ -25,7 +25,11 @@ function (can, moment, later, _, ElasticsearchModel, constants,
   });
 
   ActionModel.List = ActionModel.List.extend({
-    comparator: 'createdAt'
+    comparator: function (a, b) {
+      a = moment(a.attr('relativeDate')).unix();
+      b = moment(b.attr('relativeDate')).unix();
+      return a > b ? -1 : 0; // Desc
+    }
   });
 
   return ActionModel;

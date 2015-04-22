@@ -2,10 +2,11 @@ steal(
   'can',
   'lodash',
   './action.stache!',
+  'src/utils/constants.js',
 
   './action.less!',
   'can/map/define',
-function (can, _, template) {
+function (can, _, template, constants) {
 
   var ViewModel = can.Map.extend({
     define: {
@@ -50,6 +51,18 @@ function (can, _, template) {
     template: template,
     scope: ViewModel,
     events: {
+    },
+    helpers: {
+      renderTitle: function (title) {
+        var usernameRegex = /(^|[^@\w])(@\w+?)\b/g;
+        var hashtagRegex = /(^|[^#\w])(#\w+?)\b/g;
+
+        title = (title.isComputed ? title() : title);
+        title = title.replace(usernameRegex, '$1<a href="">$2</a>');
+        title = title.replace(hashtagRegex, '$1<a href="">$2</a>');
+
+        return title;
+      }
     }
   });
 });

@@ -1,11 +1,13 @@
 steal(
   'can',
+  'moment',
   './actions.stache!',
+  'src/utils/constants.js',
 
   './actions.less!',
   'src/component/action',
   'can/map/define',
-function (can, template) {
+function (can, moment, template, constants) {
 
   var ViewModel = can.Map.extend({
     define: {
@@ -25,7 +27,11 @@ function (can, template) {
       }
     },
     helpers: {
-      
+      convertSlugToHumanReadableDate: function (dateSlug) {
+        var m = moment(dateSlug);
+        var date = m.format(constants.date.format.human);
+        return date;
+      }
     }
   });
 });

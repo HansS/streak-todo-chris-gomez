@@ -33,9 +33,15 @@ steal('can',
       }
     },
     helpers: {
-      formatDate: function (date) {
-        // TODO: Find out why I have to call this
-        var m = date();
+      formatDate: function (momentObj) {
+        var m = (momentObj.isComputed ? momentObj() : momentObj);
+        var dateSlug = m.format(constants.dateSlugFormat);
+        var todaysDateSlug = moment().format(constants.dateSlugFormat);
+
+        // if (dateSlug === todaysDateSlug) {
+        //   return 'Today';
+        // }
+
         // Monday, Oct. 27th, 2014
         return m.format('dddd, MMM. Do, YYYY');
       }

@@ -28,6 +28,8 @@ app.use(modRewrite([
   '^/log/\\d{2}-\\d{2}-\\d{4}.{3}\\d{2}-\\d{2}-\\d{4} /index.html',
   // Single date: 01-21-1987
   '^/log/\\d{2}-\\d{2}-\\d{4} /index.html',
+  // Log search
+  '^/search /index.html',
   // Default log
   '^/log /index.html'
 ]));

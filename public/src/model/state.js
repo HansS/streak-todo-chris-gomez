@@ -88,19 +88,30 @@ function (can, UserModel, ActionModel, constants) {
         get: function () {
           var actions = this.attr('actions');
           var groupedActions = new can.Map();
+          var viewedDateTimestamp = this.attr('date').unix();
+          var groupComparator = function (a, b) {
+            a = moment(a.attr('createdAt')).unix();
+            b = moment(b.attr('createdAt')).unix();
+            return a > b ? -1 : 0; // Desc
+          }
 
           // Create dependency on "actions"
           actions.attr('length');
 
           actions.each(function (action) {
             var relativeDate = moment(action.attr('relativeDate'));
+            var relativeDateTimestamp = relativeDate.unix();
             var relativeDateSlug =
               relativeDate.format(constants.dateSlugFormat);
-
             var group = groupedActions.attr(relativeDateSlug);
+
+            if (relativeDateTimestamp > viewedDateTimestamp) {
+              return;
+            }
 
             if (! group) {
               group = new can.List();
+              group.attr('comparator', groupComparator);
               groupedActions.attr(relativeDateSlug, group);
             }
 

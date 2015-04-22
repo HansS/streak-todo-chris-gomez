@@ -18,14 +18,14 @@ var DATE_SUFFIX = new Date().toISOString()
 var NEW_INDEX_NAME = ALIAS_NAME + '_' + DATE_SUFFIX;
 var EXISTING_INDEX = ES_URL + '/' + ALIAS_NAME;
 var NEW_INDEX = ES_URL + '/' + NEW_INDEX_NAME;
-var ELASTICDUMP_BIN = 'elasticdump';
+var ELASTICDUMP_BIN = './node_modules/elasticdump/bin/elasticdump';
 
 var client = new elasticsearch.Client(ES_CONNECTION_CONFIG);
 
-console.log('/**')
+console.log('/**');
 console.log('* Existing index:', EXISTING_INDEX);
 console.log('* New index:', NEW_INDEX);
-console.log('**/')
+console.log('**/');
 
 var print = function (prefix, data) {
 
@@ -41,9 +41,11 @@ var print = function (prefix, data) {
   } else {
     console.log(output);
   }
-}
+};
 
 var run = function (cmd, args, callback) {
+  console.log('Executing...', cmd, args);
+
   var ps  = spawn(cmd, args);
 
   ps.stdout.on('data', function (data) {
@@ -60,14 +62,14 @@ var run = function (cmd, args, callback) {
     // Throw an error if the process exits with a "1"
     callback(code === 0 ? null : true);
   });
-}
+};
 
 var makeCreateIndex = function (name, ignoreError) {
   return function (callback) {
     client.indices.create({
       index: name
     }, function (err, response, status) {
-      console.log('Create index "' + NEW_INDEX_NAME + '":', response)
+      console.log('Create index "' + NEW_INDEX_NAME + '":', response);
 
       if (ignoreError) {
         err = null;
@@ -75,8 +77,8 @@ var makeCreateIndex = function (name, ignoreError) {
 
       callback(err);
     });
-  }
-}
+  };
+};
 
 var makeCreateMapping = function (type) {
   return function (callback) {
@@ -92,8 +94,8 @@ var makeCreateMapping = function (type) {
       console.log('Put "' + type + '" mapping:', response);
       callback(err);
     });
-  }
-}
+  };
+};
 
 var makeCopyData = function (type) {
   return function (callback) {
@@ -102,10 +104,8 @@ var makeCopyData = function (type) {
       '--output=' + NEW_INDEX + '/' + type,
       '--type=data'
     ], callback);
-  }
-}
-
-
+  };
+};
 
 async.series({
 
@@ -115,11 +115,43 @@ async.series({
 
   // Put the mapping from "/config/elasticsearch/mapping.json"
   createUserMapping: makeCreateMapping('user'),
-  createTodoMapping: makeCreateMapping('todo'),
+  createTodoMapping: makeCreateMapping('action'),
+
+  close: function (callback) {
+    client.indices.close({
+      index: NEW_INDEX_NAME
+    }, function (err, response, status) {
+      callback(err);
+    });
+  },
+
+  // Put the settings for the "streak" index
+  createSettings: function (callback) {
+    var path = process.cwd() + '/config/elasticsearch/settings.json';
+    var config = fs.readFileSync(path, 'utf-8');
+    var settings = JSON.parse(config);
+    var body = settings;
+
+    client.indices.putSettings({
+      index: NEW_INDEX_NAME,
+      body: body
+    }, function (err, response, status) {
+      console.log('Put settings:', response);
+      callback(err);
+    });
+  },
+
+  open: function (callback) {
+    client.indices.open({
+      index: NEW_INDEX_NAME
+    }, function (err, response, status) {
+      callback(err);
+    });
+  },
 
   // Bulk copy the docs from "streak" to "streak_yyyy-mm-dd--hh-mm-ss"
   copyUserDocs: makeCopyData('user'),
-  copyTodoDocs: makeCopyData('todo'),
+  copyTodoDocs: makeCopyData('action'),
 
   getCurrentIndexName: function (callback) {
     client.indices.getAliases({
@@ -127,7 +159,7 @@ async.series({
     }, function (err, response, status) {
       CURRENT_INDEX_NAME = Object.keys(response)[0];
       callback(err);
-    })
+    });
   },
 
   // Point the "streak" alias at "streak_yyyy-mm-dd--hh-mm-ss"
@@ -147,8 +179,8 @@ async.series({
         actions: actions
       }
     }, function (err, response, status) {
-      console.log('Update aliases:', response)
-      callback(err)
+      console.log('Update aliases:', response);
+      callback(err);
     });
   },
 
@@ -156,10 +188,10 @@ async.series({
     client.indices.getAliases({
       index: ALIAS_NAME
     }, function (err, response, status) {
-      console.log('Resulting aliases:')
-      console.log(response)
+      console.log('Resulting aliases:');
+      console.log(response);
       callback(err);
-    })
+    });
   },
 
 }, function (err, result) {
@@ -167,9 +199,9 @@ async.series({
     throw err;
   }
 
-  console.log('Success!')
+  console.log('Success!');
   process.exit();
-})
+});
 
 
 

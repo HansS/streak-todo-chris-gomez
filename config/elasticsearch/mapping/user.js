@@ -1,9 +1,13 @@
 module.exports = {
-  user: {
-    properties: {
-      username: {
-        type: 'string'
-      }
+  "user": {
+    "properties": {
+       "createdAt": {
+          "type": "date",
+          "format": "dateOptionalTime"
+       },
+       "username": {
+          "type": "string"
+       }
     }
   }
 };
