@@ -62,7 +62,7 @@ function (can, state) {
           'date="{date}" ' + // The log-controller binds to date changes
           'date-slug="{dateSlug}" ' +
           'modal="{modal}" ' +
-          'actions="{actions}" ' + 
+          'actions="{actions}"' +
           '></log-controller>',
         requireAuth: true
       }
