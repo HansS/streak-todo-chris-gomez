@@ -55,6 +55,7 @@ function (can, template, state, UserModel) {
         if (! users.length) {
           state.alert('info', 'Nah-uh',
             'That user doesn\'t exist. Are you sure you have an account?');
+          return;
         }
 
         // Use the first one returned (we hope there was only one).
