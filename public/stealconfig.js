@@ -2,7 +2,7 @@ steal.config({
   map: {
     'elasticsearch/elasticsearch': 'elasticsearch',
     "jquery/jquery": "jquery",
-    "lodash/lodash": "lodash/main",
+    "lodash/lodash": "lodash",
     "moment/moment": "moment",
     "fastclick/fastclick": "fastclick",
     "later/later": "later"
@@ -13,7 +13,7 @@ steal.config({
     'elasticsearch': 'bower_components/elasticsearch/elasticsearch.js',
     "jquery": "bower_components/jquery/dist/jquery.js",
     "jquery-cookie/jquery-cookie": "bower_components/jquery-cookie/jquery.cookie.js",
-    "lodash/*": "bower_components/lodash-amd/modern/*.js",
+    "lodash": "bower_components/lodash/lodash.js",
     "later": "bower_components/later/later.js",
     "moment": "bower_components/moment/moment.js",
     "fastclick": "bower_components/fastclick/lib/fastclick.js"

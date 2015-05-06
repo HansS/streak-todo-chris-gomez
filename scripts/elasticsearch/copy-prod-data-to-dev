@@ -1,0 +1,8 @@
+#! /bin/sh
+
+curl -XDELETE 'http://localdocker:9200/streak' -d '{"query": {"match_all": {}}}'
+elasticdump \
+  --debug=true \
+  --input=http://104.131.23.83:9200/streak \
+  --output=http://localdocker:9200/streak \
+  --type=data

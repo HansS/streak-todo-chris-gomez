@@ -1,0 +1,14 @@
+#!/bin/sh
+
+server="104.131.23.83"
+
+deploy_command="cd streak"
+deploy_command="$deploy_command && git pull"
+deploy_command="$deploy_command && fig up -d"
+
+git checkout master
+git pull origin master
+git push origin master
+
+echo "Executing remotely: $deploy_command"
+ssh -t root@$server "$deploy_command"

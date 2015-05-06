@@ -157,9 +157,10 @@ function (can, UserModel, ActionModel, constants) {
         serialize: true,
         type: 'string',
         set: function (slug) {
-          var m;
+          var self = this;
           var currentDateSlug =
             moment(new Date()).format(constants.dateSlugFormat);
+          var alerts, m, index;
 
           if (slug !== '') {
             m = moment(slug, constants.dateSlugFormat);
@@ -174,19 +175,45 @@ function (can, UserModel, ActionModel, constants) {
           slug = m.format(constants.dateSlugFormat);
 
           if (slug === currentDateSlug) {
-            return '';
+
+            // Only remove the reminder if there is one
+            if (this._dateReminderAlert) {
+              alerts = this.attr('alerts');
+              index = alerts.indexOf(this._dateReminderAlert);
+              alerts.splice(index, 1);
+            }
+
+            // Don't show the message if its scheduled to show
+            clearTimeout(this._dateReminderTimeout);
+
+            // Make the URL clean
+            slug = '';
+          } else {
+            this._dateReminderTimeout = setTimeout(function () {
+              self._dateReminderAlert =
+                self.alert('warning', 'Don\'t forget',
+                  'You\'re viewing a date that is not today.', true);
+            }, 1000 * 3);
           }
 
           return slug;
         }
       }
     },
-    alert: function (type, heading, message) {
+    alert: function (type, heading, message, persist) {
+
+      if (typeof persist === 'undefined') {
+        persist = false;
+      }
+
       this.attr('alerts').push({
         type: type,
         heading: heading,
-        message: message
+        message: message,
+        persist: persist
       });
+
+      return this.attr('alerts').slice(-1).shift();
     }
   });
 

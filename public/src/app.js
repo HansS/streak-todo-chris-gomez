@@ -4,6 +4,7 @@ steal(
   './router.js',
   'src/component/layout',
 
+  'src/app.less!',
   'bower_components/bootstrap/js/collapse.js',
   'bower_components/bootstrap/js/modal.js',
   'bower_components/bootstrap/js/transition.js',

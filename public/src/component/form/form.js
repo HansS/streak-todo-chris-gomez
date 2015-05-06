@@ -21,18 +21,23 @@ function (can, template, state, ActionModel) {
 
     createAction: function (context, el, ev) {
 
-      // Don't submit the form
+      // Only proceed if enter key pressed
+      if (ev.which !== 13) {
+        return;
+      }
+
+      // Stop from rendering the newline
       ev.preventDefault();
 
-      // Get the event title
-      var title = this.attr('title');
+      // Get the action title
+      var title = el.val();
 
       // Title required
       if (! title) {
         return;
       }
 
-      // Create a event model
+      // Create a action model
       var actionModel = new ActionModel({
         userId: state.attr('user').attr('_id'),
         title: title,
@@ -40,15 +45,15 @@ function (can, template, state, ActionModel) {
         createdAt: new Date().toISOString()
       });
 
-      // Add the event to the beginning of the event list
+      // Add the action to the beginning of the action list
       // RE: Sort plugin - .push() should put the item in the correct spot
       this.attr('actions').push(actionModel);
 
       // Persist the model to the server
       actionModel.save();
 
-      // Empty the input
-      this.attr('title', '');
+      // Empty the textarea
+      el.val('');
     },
 
     searchActions: function (context, el, ev) {

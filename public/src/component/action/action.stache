@@ -1,9 +1,13 @@
 <div class="actions">
-  <a href="javascript://" can-click="showSettingsMenu">
-    <span class="fa fa-info-circle"></span>
+  <a href="javascript://" can-click="toggleEditing">
+    <span class="fa fa-pencil-square-o"></span>
   </a>
   <a href="javascript://" can-click="deleteAction">
     <span class="fa fa-trash"></span>
   </a>
 </div>
-{{{renderTitle action.title}}}
+{{#unless editing}}
+  {{{renderTitle action.title}}}
+{{/else}}
+  <textarea class="form-control" can-keydown="updateAction">{{action.title}}</textarea>
+{{/unless}}

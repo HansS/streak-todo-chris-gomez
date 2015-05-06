@@ -33,6 +33,7 @@ function (can, template) {
 
       },
 
+      // TODO: Make this function respect persisted alerts
       shiftAlertsAfterInterval: function (recursive) {
         var self = this;
         var scope = self.scope;
@@ -59,8 +60,10 @@ function (can, template) {
 
       },
 
-      '{scope.alerts} add': function () {
-        this.shiftAlertsAfterInterval();
+      '{scope.alerts} add': function (context, ev, added) {
+        if (! added[0].attr('persist')) {
+          this.shiftAlertsAfterInterval();
+        }
       }
     }
   });

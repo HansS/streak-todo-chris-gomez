@@ -10,6 +10,9 @@ function (can, _, template, constants) {
 
   var ViewModel = can.Map.extend({
     define: {
+      editing: {
+        value: false
+      }
     },
     showSettingsMenu: function () {
       var self = this;
@@ -43,6 +46,30 @@ function (can, _, template, constants) {
     },
     deleteAction: function () {
       this.attr('action').destroy();
+    },
+    toggleEditing: function () {
+      if (this.attr('editing')) {
+        this.attr('action').revert();
+      } else {
+        this.attr('action').backup();
+      }
+
+      this.attr('editing', ! this.attr('editing'));
+    },
+    updateAction: function (context, el, ev) {
+
+      // Only proceed if enter key pressed
+      if (ev.which !== 13) {
+        return;
+      }
+
+      // Stop from rendering the newline
+      ev.preventDefault();
+
+      var title = el.val();
+
+      this.attr('action.title', title);
+      this.attr('action').save();
     }
   });
 
@@ -54,12 +81,12 @@ function (can, _, template, constants) {
     },
     helpers: {
       renderTitle: function (title) {
-        var usernameRegex = /(^|[^@\w])(@\w+?)\b/g;
-        var hashtagRegex = /(^|[^#\w])(#\w+?)\b/g;
+        var attnRegex = /(^|[^@\w])(@\w+?)\b/g;
+        var hashRegex = /(^|[^#\w])(#\w+?)\b/g;
 
         title = (title.isComputed ? title() : title);
-        title = title.replace(usernameRegex, '$1<a href="">$2</a>');
-        title = title.replace(hashtagRegex, '$1<a href="">$2</a>');
+        title = title.replace(attnRegex, '$1<a href="/search/$2">$2</a>');
+        title = title.replace(hashRegex, '$1<a href="/search/$2">$2</a>');
 
         return title;
       }
