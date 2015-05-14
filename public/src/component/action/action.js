@@ -81,12 +81,14 @@ function (can, _, template, constants) {
     },
     helpers: {
       renderTitle: function (title) {
-        var attnRegex = /(^|[^@\w])(@\w+?)\b/g;
-        var hashRegex = /(^|[^#\w])(#\w+?)\b/g;
+        // var attnRegex = /(^|[^@\w])(@\w+?)\b/g;
+        // var hashRegex = /(^|[^#\w])(#\w+?)\b/g;
+        var attnRegex = /(\@(\w|-)+)/g;
+        var hashRegex = /(\#(\w|-)+)/g;
 
         title = (title.isComputed ? title() : title);
-        title = title.replace(attnRegex, '$1<a href="/search/$2">$2</a>');
-        title = title.replace(hashRegex, '$1<a href="/search/$2">$2</a>');
+        title = title.replace(attnRegex, '<a href="/search/$1">$1</a>');
+        title = title.replace(hashRegex, '<a href="/search/$1">$1</a>');
 
         return title;
       }
