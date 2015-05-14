@@ -181,14 +181,16 @@ function (can, UserModel, ActionModel, constants) {
               alerts = this.attr('alerts');
               index = alerts.indexOf(this._dateReminderAlert);
               alerts.splice(index, 1);
+              this._dateReminderAlert = null;
             }
 
             // Don't show the message if its scheduled to show
             clearTimeout(this._dateReminderTimeout);
+            this._dateReminderTimeout = null;
 
             // Make the URL clean
             slug = '';
-          } else {
+          } else if (! this._dateReminderTimeout) {
             this._dateReminderTimeout = setTimeout(function () {
               self._dateReminderAlert =
                 self.alert('warning', 'Don\'t forget',
