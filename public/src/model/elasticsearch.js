@@ -5,7 +5,9 @@ steal(
 function (can, es) {
 
   var esClient = window.esClient = new es.Client({
-    host: document.location.protocol + '//' + document.location.host + '/api'
+    // host: document.location.protocol + '//' + document.location.host + '/api'
+    // host: 'https://ujteglbncb:eanv2oyoll@streak-9902939645.us-east-1.bonsai.io'
+    host: document.location.protocol + '//' + document.location.host + '/__/proxy/api'
   });
 
   var backupStore = {};
