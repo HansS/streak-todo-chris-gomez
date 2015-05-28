@@ -10,7 +10,7 @@
         </h6>
         <div class="list-group">
           {{#each .}}
-            <div class="list-group-item {{#isCompleted .}}disabled{{/isCompleted}}">
+            <div class="list-group-item">
               <app-action action="{.}" modal="{modal}"></app-action>
             </div>
           {{/each}}

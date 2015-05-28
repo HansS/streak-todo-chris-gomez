@@ -7,8 +7,7 @@ var spawn = require('child_process').spawn;
 var elasticsearch = require('elasticsearch');
 var url = require('url');
 
-var ES_URL = process.env.ES_1_PORT.replace('tcp', 'http');
-var ES_CONNECTION_CONFIG = url.parse(ES_URL);
+var ES_URL = process.env.ES_URL;
 var ALIAS_NAME = 'streak';
 var CURRENT_INDEX_NAME = null;
 var DATE_SUFFIX = new Date().toISOString()
@@ -20,7 +19,9 @@ var EXISTING_INDEX = ES_URL + '/' + ALIAS_NAME;
 var NEW_INDEX = ES_URL + '/' + NEW_INDEX_NAME;
 var ELASTICDUMP_BIN = './node_modules/elasticdump/bin/elasticdump';
 
-var client = new elasticsearch.Client(ES_CONNECTION_CONFIG);
+var client = new elasticsearch.Client({
+  host: ES_URL
+});
 
 console.log('/**');
 console.log('* Existing index:', EXISTING_INDEX);

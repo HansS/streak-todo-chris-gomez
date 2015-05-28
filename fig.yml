@@ -2,15 +2,9 @@ web:
   build: .
   volumes:
     - .:/streak
-  links:
-    - es
   ports:
     - "80:9000"
   environment:
     NODE_ENV: development
+    ES_URL: 'https://ujteglbncb:eanv2oyoll@streak-9902939645.us-east-1.bonsai.io'
   command: grunt
-
-es:
-  image: dockerfile/elasticsearch
-  ports:
-    - "9200:9200"

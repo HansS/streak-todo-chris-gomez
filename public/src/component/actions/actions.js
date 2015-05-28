@@ -28,8 +28,11 @@ function (can, moment, template, constants) {
     },
     helpers: {
       convertSlugToHumanReadableDate: function (dateSlug) {
+        dateSlug = dateSlug.isComputed ? dateSlug() : dateSlug;
+
         var m = moment(dateSlug);
         var date = m.format(constants.date.format.human);
+
         return date;
       }
     }

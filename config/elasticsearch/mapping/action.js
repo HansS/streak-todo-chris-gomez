@@ -22,7 +22,8 @@ module.exports = {
           "type": "string"
        },
        "userId": {
-          "type": "string"
+          "type": "string",
+          "index": "not_analyzed"
        }
     }
   }

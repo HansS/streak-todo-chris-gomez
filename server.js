@@ -13,7 +13,7 @@ var proxy = require('proxy-middleware');
 var PORT = 9000;
 
 // Fig give us a TCP address. We want an HTTP address.
-var ES_URL = process.env.ES_1_PORT.replace('tcp', 'http');
+var ES_URL = process.env.ES_URL;
 var ES_CONNECTION_CONFIG = url.parse(ES_URL);
 
 // Server
@@ -29,6 +29,7 @@ app.use(modRewrite([
   // Single date: 01-21-1987
   '^/log/\\d{2}-\\d{2}-\\d{4} /index.html',
   // Log search
+  '^/search/ /index.html',
   '^/search /index.html',
   // Default log
   '^/log /index.html'

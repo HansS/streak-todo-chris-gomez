@@ -1,4 +1,4 @@
-<div class="actions">
+<div class="actions {{#if isEditing}}isEditing{{/if}}">
   <a href="javascript://" can-click="toggleEditing">
     <span class="fa fa-pencil-square-o"></span>
   </a>
@@ -6,8 +6,8 @@
     <span class="fa fa-trash"></span>
   </a>
 </div>
-{{#unless editing}}
-  {{{renderTitle action.title}}}
+{{#unless isEditing}}
+  <div can-click="toggleEditing">{{{renderTitle action.title}}}</div>
 {{/else}}
-  <textarea class="form-control" can-keydown="updateAction">{{action.title}}</textarea>
+  <textarea class="form-control" can-keydown="updateOrRevert">{{action.title}}</textarea>
 {{/unless}}

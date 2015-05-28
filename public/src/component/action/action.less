@@ -1,16 +1,23 @@
 app-action {
-  dispaly: block;
+  position: relative;
+  display: block;
 
   .title {
     color: #333;
   }
 
-  .actions {
+  .actions { // As in, actions that can be performed on an action
     float: right;
 
     a {
       padding: 4px;
       color: #bbb;
+    }
+
+    &.isEditing {
+      position: absolute;
+      right: 4px;
+      top: 4px;
     }
   }
 }
