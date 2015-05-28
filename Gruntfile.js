@@ -20,21 +20,21 @@ module.exports = function(grunt) {
     },
     supervisor: {
       development: {
-        script: 'server.js',
+        script: '.',
         options: {
           // args: [ 'dev' ]
-          watch: ['server.js'],
+          // watch: ['server.js'],
           // ignore: [ 'test' ],
           // pollInterval: 500,
-          extensions: ['js', 'json'],
-          // exec: 'node',
+          // extensions: ['js', 'json'],
+          exec: 'superstatic',
           // debug: true,
           // debugBrk: true,
           // harmony: true
           // noRestartOn: 'exit',
           // forceWatch: true,
           // quiet: true,
-          forceSync: true // Cooperate with watch task
+          // forceSync: true // Cooperate with watch task
         }
       }
     }
