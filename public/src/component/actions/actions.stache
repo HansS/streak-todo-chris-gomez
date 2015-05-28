@@ -5,16 +5,18 @@
       <!--<actions-progress-bar actions="{actions}"></actions-progress-bar>-->
 
       {{#each actions}}
-        <h6 class="group-heading">
-          <a href="/log/{{@key}}">{{convertSlugToHumanReadableDate @key}}</a>
-        </h6>
-        <div class="list-group">
-          {{#each .}}
-            <div class="list-group-item">
-              <app-action action="{.}" modal="{modal}"></app-action>
-            </div>
-          {{/each}}
-        </div>
+        {{#unless isHidden}}
+          <h6 class="group-heading">
+            <a href="/log/{{@key}}">{{convertSlugToHumanReadableDate @key}}</a>
+          </h6>
+          <div class="list-group">
+            {{#each .}}
+              <div class="list-group-item">
+                <app-action action="{.}" modal="{modal}"></app-action>
+              </div>
+            {{/each}}
+          </div>
+        {{/unless}}
       {{/each}}
 
     </div>

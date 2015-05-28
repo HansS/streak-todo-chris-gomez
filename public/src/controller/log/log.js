@@ -80,17 +80,13 @@ function (can, _, template, state, ActionModel, constants) {
         });
       },
 
-      '{scope.actions} length': function (actions, ev, oldVal) {
+      '{scope.actions} add': function (actions, ev, oldVal) {
         if (ev.batchNum) {
           if (ev.batchNum === this._lastActionLengthBatchNum) {
             return;
           } else {
             this._lastActionLengthBatchNum = ev.batchNum;
           }
-        }
-
-        if (oldVal === actions.attr('length')) {
-          return;
         }
 
         this.groupActions();
@@ -100,13 +96,13 @@ function (can, _, template, state, ActionModel, constants) {
 
       groupActions: function () {
         var actions = this.scope.attr('actions');
-        var groupedActions = new can.Map();
+        var groupedActions = this.scope.attr('actionsGroupedByDate');
         var viewedDateTimestamp = this.scope.attr('date').unix();
 
         var groupComparator = function (a, b) {
           a = moment(a.attr('createdAt')).unix();
           b = moment(b.attr('createdAt')).unix();
-          return a > b ? -1 : 0; // Desc
+          return a === b ? 0 : a > b ? -1 : 1; // Desc
         }
 
         actions.each(function (action) {
@@ -116,19 +112,24 @@ function (can, _, template, state, ActionModel, constants) {
             relativeDate.format(constants.dateSlugFormat);
           var group = groupedActions.attr(relativeDateSlug);
 
-          if (relativeDateTimestamp > viewedDateTimestamp) {
-            return;
-          }
-
+          // Create the list if it doesn't exist
           if (! group) {
             group = new ActionModel.List();
             group.attr('comparator', groupComparator);
             groupedActions.attr(relativeDateSlug, group);
           }
 
-          group.push(action);
-        });
+          // Hide or show based on viewed date
+          group.attr('isHidden', relativeDateTimestamp > viewedDateTimestamp);
 
+          // Only add the action if it's not already in the list.
+          // Don't worry about removing items. That's handled by
+          // bubbling/destroy
+          if (group.indexOf(action) === -1) {
+            group.push(action);
+          }
+        });
+        window.actionsGroupedByDate = groupedActions;
         this.scope.attr('actionsGroupedByDate', groupedActions);
       }
     }
