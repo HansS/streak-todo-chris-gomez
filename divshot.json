@@ -1,0 +1,20 @@
+{
+  "name": "streak",
+  "root": "./public",
+  "clean_urls": true,
+  "cache_control": {},
+  "routes": {
+    "**": "index.html"
+  },
+  "proxy": {
+    "api": {
+      "origin": "https://streak-9902939645.us-east-1.bonsai.io",
+      "headers": {
+        "Accept": "application/json",
+        "Authorization": "Basic dWp0ZWdsYm5jYjplYW52Mm95b2xs"
+      },
+      "cookies": false,
+      "timeout": 30
+    }
+  }
+}
