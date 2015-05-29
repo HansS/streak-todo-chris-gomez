@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "bootstrap": "~3.3.4",
-    "canjs": "https://github.com/bitovi/canjs.git#master",
+    "canjs": "https://github.com/bitovi/canjs.git#sort-plugin-edge-cases",
     "steal": "~0.3.0",
     "jquery": "~2.1.1",
     "lodash": "~3.8.0",
