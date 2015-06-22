@@ -33,7 +33,7 @@ exports.translate = function(load) {
     });
   }
 
-  return "define(['can/view/stache/stache'],function(stache){" +
-    "return stache(\"" + esc(load.source) + "\")" +
+  return "def" + "ine(['can/view/stache/stache'],function(stache){" +
+      "return stache(\"" + esc(load.source) + "\")" +
     "})";
 };
