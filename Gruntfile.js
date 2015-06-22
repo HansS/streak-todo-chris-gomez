@@ -46,8 +46,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', [
     'less:development',
-    'supervisor:development',
-    'watch:less'
+    'supervisor:development'
   ]);
 
 };
