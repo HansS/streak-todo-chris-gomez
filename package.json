@@ -17,12 +17,8 @@
   ],
   "dependencies": {
     "async": "^0.9.0",
-    "connect": "^3.2.0",
-    "connect-modrewrite": "^0.7.9",
     "elasticdump": "^0.7.5",
-    "elasticsearch": "^2.4.3",
-    "proxy-middleware": "^0.5.1",
-    "serve-static": "^1.6.2"
+    "elasticsearch": "^2.4.3"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
@@ -30,6 +26,7 @@
     "grunt-contrib-less": "^0.11.4",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-supervisor": "^0.2.4",
+    "steal-tools": "^0.11.0-pre.0",
     "superstatic-proxy": "^2.1.0"
   }
 }
